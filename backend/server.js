@@ -23,6 +23,10 @@ app.get('/news', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'news.html'));
 });
 
+app.get('/contact', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'contact.html'));
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
