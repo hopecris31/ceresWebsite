@@ -3,10 +3,10 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'custom-hover': '#eae5c8',
-                'custom-default': '#656565',
+                'nav-default': '#656565',   // dark-grey for non-hovered text
+                'nav-hover'   : '#eae5c8',   // light-beige on hover
             },
         },
     },
     plugins: [],
-}
+};
