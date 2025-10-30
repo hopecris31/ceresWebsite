@@ -2,14 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Invisible navbar with top spacing */
 .navbar {
-    @apply flex justify-between items-center p-2 bg-white text-black;
+    @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center
+    bg-transparent text-white
+    pt-6; /* ← 1.5rem (24px) padding from TOP of screen */
+}
+
+/* Logo container – push right from left edge */
+.logo-wrapper {
+    @apply flex items-center pl-12; /* ← indent logo 2rem (32px) from left */
+}
+
+/* Menu container – push left from right edge */
+.menu-wrapper {
+    @apply flex space-x-6 pr-36; /* ← 4rem = 64px from right */
 }
 
 .nav-item {
-    @apply px-4 py-2 rounded-lg transition-all duration-300 text-custom-default;
+    @apply px-4 py-2 rounded-lg transition-all duration-300
+    text-white hover:text-[#eae5c8] hover:scale-105
+    text-lg md:text-xl                  /* ← Bigger font */
+    font-medium                         /* ← Clean weight */
+    tracking-wide;                      /* ← Slight spacing */
+
+    font-family: 'Urbanist', sans-serif;           /* ← Modern font */
+    font-weight: 500;
 }
 
-.nav-item:hover {
-    @apply text-custom-hover scale-105;
+.slide {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out;
+}
+.slide.active {
+    @apply opacity-100;
 }

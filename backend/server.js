@@ -23,6 +23,10 @@ app.get('/news', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'news.html'));
 });
 
+app.get('/gallery', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'gallery.html'));
+});
+
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'contact.html'));
 });
