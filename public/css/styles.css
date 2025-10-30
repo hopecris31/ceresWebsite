@@ -2,37 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Invisible navbar with top spacing */
+/* ================== NAVBAR ================== */
 .navbar {
     @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center
-    bg-transparent text-white
-    pt-6; /* ← 1.5rem (24px) padding from TOP of screen */
+    bg-transparent text-white pt-6;
 }
 
-/* Logo container – push right from left edge */
 .logo-wrapper {
-    @apply flex items-center pl-12; /* ← indent logo 2rem (32px) from left */
+    @apply flex items-center pl-24;
 }
 
-/* Menu container – push left from right edge */
 .menu-wrapper {
-    @apply flex space-x-6 pr-36; /* ← 4rem = 64px from right */
+    @apply flex space-x-6 pr-36;
 }
 
 .nav-item {
     @apply px-4 py-2 rounded-lg transition-all duration-300
     text-white hover:text-[#eae5c8] hover:scale-105
-    text-lg md:text-xl                  /* ← Bigger font */
-    font-medium                         /* ← Clean weight */
-    tracking-wide;                      /* ← Slight spacing */
-
-    font-family: 'Urbanist', sans-serif;           /* ← Modern font */
-    font-weight: 500;
+    text-lg md:text-xl font-medium tracking-wide;
+    font-family: 'Sora', sans-serif;
 }
 
+/* ================== IMAGE SLIDER ================== */
 .slide {
     @apply absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out;
 }
 .slide.active {
     @apply opacity-100;
+}
+
+/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
+.snap-container {
+    @apply scroll-smooth overflow-y-auto h-screen;
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 0;
+}
+
+.snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* Custom slow scroll animation */
+@layer utilities {
+    .scroll-snap-slow {
+        scroll-behavior: smooth;
+        transition: scroll 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
 }
