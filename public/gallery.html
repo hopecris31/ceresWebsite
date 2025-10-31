@@ -160,8 +160,10 @@
 
         // === Auto-generate mosaic pattern ===
         let currentRow = 1;
-        for (let i = 0; i < items.length; ) {
-            const isStyleA = Math.floor(i / 7) % 2 === 0; // alternate every 7 items (A=3, B=4)
+        let rowCount = 0;
+
+        for (let i = 0; i < items.length;) {
+            const isStyleA = rowCount % 2 === 0;
 
             if (isStyleA) {
                 if (i + 2 >= items.length) break;
@@ -187,8 +189,10 @@
                 i += 4;
             }
 
-            currentRow += 4;
+            currentRow += 4;  // move to next row
+            rowCount++;       // increment row/block counter
         }
+
 
         // === Lightbox ===
         const lightbox = document.getElementById('lightbox');
