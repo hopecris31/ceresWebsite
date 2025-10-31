@@ -17,7 +17,7 @@
 }
 
 .nav-item {
-    @apply px-4 py-2 rounded-lg transition-all duration-300
+    @apply px-4 py-2 transition-all duration-300
     text-white hover:text-[#eae5c8] hover:scale-105
     text-lg md:text-xl font-medium tracking-wide;
     font-family: 'Sora', sans-serif;
@@ -49,4 +49,38 @@
         scroll-behavior: smooth;
         transition: scroll 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+}
+
+/* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
+.mosaic-container {
+    @apply columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4;
+}
+
+.mosaic-item {
+    @apply break-inside-avoid mb-4 overflow-hidden cursor-pointer
+    transition-all duration-300 shadow-md hover:shadow-xl hover:z-10;
+}
+
+.mosaic-item:hover {
+    @apply scale-105;
+}
+
+.mosaic-item img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.mosaic-item:hover img {
+    @apply scale-110;
+}
+
+/* UNIQUE SIZES */
+.size-sm   { height: 180px; }
+.size-md   { height: 240px; }
+.size-lg   { height: 320px; }
+.size-wide { height: 200px; }
+.size-tall { height: 380px; }
+
+/* Lightbox caption */
+#lightbox-caption {
+    @apply bg-black/60 backdrop-blur-sm py-3 px-6;
 }
