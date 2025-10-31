@@ -163,11 +163,11 @@
         let rowCount = 0;
 
         for (let i = 0; i < items.length;) {
-            const isStyleA = rowCount % 2 === 0;
+            const style = rowCount % 4;
 
-            if (isStyleA) {
+            if (style === 0) {
+                // Style A
                 if (i + 2 >= items.length) break;
-                // Style A (3 images)
                 items[i].style.gridColumn = "1 / span 4";
                 items[i].style.gridRow = `${currentRow} / span 4`;
                 items[i+1].style.gridColumn = "5 / span 2";
@@ -175,9 +175,9 @@
                 items[i+2].style.gridColumn = "5 / span 2";
                 items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
                 i += 3;
-            } else {
+            } else if (style === 1) {
+                // Style B
                 if (i + 3 >= items.length) break;
-                // Style B (4 images)
                 items[i].style.gridColumn = "1 / span 2";
                 items[i].style.gridRow = `${currentRow} / span 2`;
                 items[i+1].style.gridColumn = "3 / span 2";
@@ -187,11 +187,37 @@
                 items[i+3].style.gridColumn = "5 / span 2";
                 items[i+3].style.gridRow = `${currentRow} / span 4`;
                 i += 4;
+            } else if (style === 2) {
+                // Style C (inverse of A)
+                if (i + 2 >= items.length) break;
+                items[i].style.gridColumn = "3 / span 4"; // hero right
+                items[i].style.gridRow = `${currentRow} / span 4`;
+                items[i+1].style.gridColumn = "1 / span 2"; // small top left
+                items[i+1].style.gridRow = `${currentRow} / span 2`;
+                items[i+2].style.gridColumn = "1 / span 2"; // small bottom left
+                items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
+                i += 3;
+            } else if (style === 3) {
+                // Style D (inverse of B)
+                if (i + 3 >= items.length) break;
+                items[i].style.gridColumn = "1 / span 2"; // tall left
+                items[i].style.gridRow = `${currentRow} / span 4`;
+
+                items[i+1].style.gridColumn = "3 / span 4"; // wide top right
+                items[i+1].style.gridRow = `${currentRow} / span 2`;
+
+                items[i+2].style.gridColumn = "3 / span 2"; // small bottom right top-left
+                items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
+
+                items[i+3].style.gridColumn = "5 / span 2"; // small bottom right top-right
+                items[i+3].style.gridRow = `${currentRow + 2} / span 2`;
+                i += 4;
             }
 
-            currentRow += 4;  // move to next row
-            rowCount++;       // increment row/block counter
+            currentRow += 4;
+            rowCount++;
         }
+
 
 
         // === Lightbox ===
