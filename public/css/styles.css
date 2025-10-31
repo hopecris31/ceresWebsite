@@ -2,14 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================== NAVBAR ================== */
 .navbar {
-    @apply flex justify-between items-center p-2 bg-white text-black;
+    @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center
+    bg-transparent text-white pt-6;
+}
+
+.logo-wrapper {
+    @apply flex items-center pl-24;
+}
+
+.menu-wrapper {
+    @apply flex space-x-6 pr-36;
 }
 
 .nav-item {
-    @apply px-4 py-2 rounded-lg transition-all duration-300 text-custom-default;
+    @apply px-4 py-2 transition-all duration-300
+    text-white hover:text-[#eae5c8] hover:scale-105
+    text-lg md:text-xl font-medium tracking-wide;
+    font-family: 'Sora', sans-serif;
 }
 
-.nav-item:hover {
-    @apply text-custom-hover scale-105;
+/* ================== IMAGE SLIDER ================== */
+.slide {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out;
+}
+.slide.active {
+    @apply opacity-100;
+}
+
+/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
+.snap-container {
+    @apply scroll-smooth overflow-y-auto h-screen;
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 0;
+}
+
+.snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* Custom slow scroll animation */
+@layer utilities {
+    .scroll-snap-slow {
+        scroll-behavior: smooth;
+        transition: scroll 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+}
+
+/* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
+.mosaic-container {
+    @apply columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4;
+}
+
+.mosaic-item {
+    @apply break-inside-avoid mb-4 overflow-hidden cursor-pointer
+    transition-all duration-300 shadow-md hover:shadow-xl hover:z-10;
+}
+
+.mosaic-item:hover {
+    @apply scale-105;
+}
+
+.mosaic-item img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.mosaic-item:hover img {
+    @apply scale-110;
+}
+
+/* UNIQUE SIZES */
+.size-sm   { height: 180px; }
+.size-md   { height: 240px; }
+.size-lg   { height: 320px; }
+.size-wide { height: 200px; }
+.size-tall { height: 380px; }
+
+/* Lightbox caption */
+#lightbox-caption {
+    @apply bg-black/60 backdrop-blur-sm py-3 px-6;
 }
