@@ -57,12 +57,17 @@
 }
 
 .mosaic-item {
-    @apply break-inside-avoid mb-4 overflow-hidden cursor-pointer
-    transition-all duration-300 shadow-md hover:shadow-xl hover:z-10;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-
 .mosaic-item:hover {
-    @apply scale-105;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 10;
 }
 
 .mosaic-item img {

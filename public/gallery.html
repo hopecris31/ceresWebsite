@@ -1,106 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Gallery</title>
     <link href="/css/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ---------- GRID MOSAIC (desktop exact-ish layout) ---------- */
+        /* ---------- GRID MOSAIC ---------- */
         .mosaic-grid {
             display: grid;
             gap: 16px;
-            /* Desktop target: precise visual layout using named rows/columns */
             grid-template-columns: repeat(6, 1fr);
-            grid-auto-rows: 120px; /* base row height — items will span rows to create different heights */
+            grid-auto-rows: 120px;
             align-items: stretch;
             justify-items: stretch;
         }
 
         .mosaic-item {
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: 0;
             box-shadow: 0 6px 18px rgba(0,0,0,0.45);
             cursor: pointer;
-            transition: transform .25s ease, box-shadow .25s ease, z-index .25s;
-            background: #111; /* fallback while image loads */
-            display: block;
+            transition: transform .25s ease, box-shadow .25s ease;
+            background: #111;
         }
         .mosaic-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
             transition: transform .4s ease;
         }
-        .mosaic-item:hover { transform: scale(1.02); z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-        .mosaic-item:hover img { transform: scale(1.08); }
+        .mosaic-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            z-index: 5;
+        }
+        .mosaic-item:hover img {
+            transform: scale(1.08);
+        }
 
-        /* --- Explicit placements for the first 9 items to match screenshot --- */
-        /* large left hero */
-        .mosaic-item:nth-child(1) { grid-column: 1 / span 4; grid-row: 1 / span 4; }
-        /* stacked right column: two small vertical tiles */
-        .mosaic-item:nth-child(2) { grid-column: 5 / span 2; grid-row: 1 / span 2; }
-        .mosaic-item:nth-child(3) { grid-column: 5 / span 2; grid-row: 3 / span 2; }
-
-        /* Row below the hero — three small tiles left-to-middle */
-        .mosaic-item:nth-child(4) { grid-column: 1 / span 2; grid-row: 5 / span 2; }
-        .mosaic-item:nth-child(5) { grid-column: 3 / span 2; grid-row: 5 / span 2; }
-        .mosaic-item:nth-child(6) { grid-column: 5 / span 2; grid-row: 5 / span 2; }
-
-        /* wide tile next row left (example placement) */
-        .mosaic-item:nth-child(7) { grid-column: 1 / span 2; grid-row: 7 / span 2; }
-        /* medium tiles next to it */
-        .mosaic-item:nth-child(8) { grid-column: 3 / span 2; grid-row: 7 / span 2; }
-        /* big bright pool-like tile to emulate screenshot's right big tile */
-        .mosaic-item:nth-child(9) { grid-column: 5 / span 2; grid-row: 7 / span 4; }
-
-        /*
-          Remaining items (10+) will auto-place beneath according to the same 6-column grid.
-          If you want exact placements for all 20 images, add more nth-child rules following the pattern above.
-        */
-
-        /* ---------- RESPONSIVE FALLBACKS ---------- */
-        /* Tablet: fewer columns */
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 1023px) {
             .mosaic-grid {
                 grid-template-columns: repeat(3, 1fr);
                 grid-auto-rows: 160px;
             }
-            /* remove forced placements so the auto-flow will arrange nicely */
-            .mosaic-item:nth-child(1),
-            .mosaic-item:nth-child(2),
-            .mosaic-item:nth-child(3),
-            .mosaic-item:nth-child(4),
-            .mosaic-item:nth-child(5),
-            .mosaic-item:nth-child(6),
-            .mosaic-item:nth-child(7),
-            .mosaic-item:nth-child(8),
-            .mosaic-item:nth-child(9) {
-                grid-column: auto;
-                grid-row: auto;
-            }
+            .mosaic-item { grid-column: auto !important; grid-row: auto !important; }
         }
 
-        /* Mobile: single column stack */
         @media (max-width: 639px) {
             .mosaic-grid {
                 grid-template-columns: 1fr;
                 grid-auto-rows: auto;
             }
-            .mosaic-item { height: auto; }
-            .mosaic-item img { height: auto; }
+            .mosaic-item, .mosaic-item img { height: auto; }
         }
 
-        /* Lightbox caption style override to match earlier tailwind utility */
-        #lightbox-caption { background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); padding: 12px 18px; border-radius: 10px; }
-
+        /* Lightbox caption */
+        #lightbox-caption {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            padding: 12px 18px;
+            border-radius: 0;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white overflow-x-hidden">
 
-<!-- NAVBAR (kept from your file) -->
+<!-- NAVBAR -->
 <nav class="navbar">
     <div class="logo-wrapper">
         <a href="/" class="nav-item flex items-center">
@@ -117,56 +85,112 @@
     </div>
 </nav>
 
+<!-- HEADER -->
 <header class="py-20 text-center">
-    <h1 class="text-5xl md:text-7xl font-bold tracking-wider" style="font-family: 'Sora', sans-serif;">GALLERY</h1>
+    <h1 class="text-5xl md:text-7xl font-bold tracking-wider" style="font-family: 'Sora', sans-serif;">
+        GALLERY
+    </h1>
 </header>
 
+<!-- MOSAIC GRID -->
 <section class="container mx-auto px-6 pb-20">
-    <!-- NOTE: mosaic-grid is the new grid system — JS below will ensure layout is applied on load/resize -->
-    <div id="mosaic" class="mosaic-grid">
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_bar.png" alt="Avon Bar" data-caption="Avon Bar & Lounge"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_bathroom.png" alt="Avon Bathroom" data-caption="Luxury Avon Bathroom"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_firepit.png" alt="Avon Firepit" data-caption="Outdoor Firepit at Avon"></div>
-
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_lobby.png" alt="Avon Lobby" data-caption="Grand Avon Lobby"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_pool.png" alt="Avon Pool" data-caption="Resort-Style Pool"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/avon_room.png" alt="Avon Suite" data-caption="Modern Avon Suite"></div>
-
-        <div class="mosaic-item"><img src="/images/gallery_images/centaur_bathroom.png" alt="Centaur Bathroom" data-caption="Centaur Spa Bathroom"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room.png" alt="Centaur Living" data-caption="Centaur Open Living Space"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room_2.png" alt="Centaur Living 2" data-caption="Centaur Cozy Living Area"></div>
-
-        <!-- rest of your images (auto-placed) -->
-        <div class="mosaic-item"><img src="/images/gallery_images/centaur_pool.png" alt="Centaur Pool" data-caption="Centaur Infinity Pool"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/centuar_kitchen.png" alt="Centaur Kitchen" data-caption="Gourmet Centaur Kitchen"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_bathroom.png" alt="Noblesville Bath" data-caption="Noblesville Modern Bath"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_market.png" alt="Noblesville Market" data-caption="Noblesville Market Lounge"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_patio.png" alt="Noblesville Patio" data-caption="Noblesville Rooftop Patio"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_suite.png" alt="Noblesville Suite" data-caption="Noblesville Executive Suite"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/westfield_bar.png" alt="Westfield Bar" data-caption="Westfield Bar Area"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/westfield_dining.png" alt="Westfield Dining" data-caption="Westfield Dining Hall"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/westfield_firepit.png" alt="Westfield Firepit" data-caption="Westfield Firepit Gathering"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/westfield_fireplace.png" alt="Westfield Fireplace" data-caption="Cozy Westfield Fireplace"></div>
-        <div class="mosaic-item"><img src="/images/gallery_images/westfield_gym.png" alt="Westfield Gym" data-caption="State-of-the-Art Gym"></div>
+    <div class="mosaic-grid">
+        <!-- 42 IMAGES -->
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_room.png" alt="Grand Lobby" data-caption="Grand Lobby Entrance"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_pool.png" alt="Bar" data-caption="Avon Bar & Lounge"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_lobby.png" alt="Bathroom" data-caption="Luxury Bathroom"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_firepit.png" alt="Living Room" data-caption="Open Living Space"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_bathroom.png" alt="Living Room 2" data-caption="Cozy Living Area"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_bar.png" alt="Market" data-caption="Noblesville Market"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/centuar_kitchen.png" alt="Pool" data-caption="Resort-Style Pool"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/centaur_pool.png" alt="Firepit" data-caption="Outdoor Firepit"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room_2.png" alt="Suite" data-caption="Modern Suite"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room.png" alt="Bathroom" data-caption="Spa Bathroom"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/centaur_bathroom.png" alt="Pool" data-caption="Infinity Pool"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/fairfield_room.png" alt="Kitchen" data-caption="Gourmet Kitchen"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/fairfield_lobby.png" alt="Bath" data-caption="Modern Bath"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/hgi_patio.png" alt="Patio" data-caption="Rooftop Patio"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/hgi_shop.png" alt="Suite" data-caption="Executive Suite"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/hgi_room.png" alt="Bar" data-caption="Westfield Bar"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/hgi_lobby.png" alt="Firepit" data-caption="Firepit Gathering"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/hgi_dining.png" alt="Fireplace" data-caption="Cozy Fireplace"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_suite.png" alt="Gym" data-caption="State-of-the-Art Gym"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_patio.png" alt="Gallery Image 20"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_market.png" alt="Gallery Image 21"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/noblesville_bathroom.png" alt="Gallery Image 22"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_gym.png" alt="Gallery Image 23"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_exterior.png" alt="Gallery Image 24"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_dining_2.png" alt="Gallery Image 25"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_dining.png" alt="Gallery Image 26"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_bedroom.png" alt="Gallery Image 27"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_accessbile_shower.png" alt="Gallery Image 28"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/orbit_bedroom_2.png" alt="Gallery Image 29"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/residence_inn_room.png" alt="Gallery Image 30"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/residence_inn_patio.png" alt="Gallery Image 31"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_suite.png" alt="Gallery Image 32"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_reception.png" alt="Gallery Image 33"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_market.png" alt="Gallery Image 34"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_lounge.png" alt="Gallery Image 35"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_lobby.png" alt="Gallery Image 36"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_gym.png" alt="Gallery Image 37"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_fireplace.png" alt="Gallery Image 38"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_firepit.png" alt="Gallery Image 39"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_dining.png" alt="Gallery Image 40"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/westfield_bar.png" alt="Gallery Image 41"></div>
+        <div class="mosaic-item"><img src="/images/gallery_images/avon_suite.png" alt="Gallery Image 42"></div>
     </div>
 </section>
 
-<!-- LIGHTBOX (kept your original) -->
+<!-- LIGHTBOX -->
 <div id="lightbox" class="fixed inset-0 bg-black/95 hidden flex-col items-center justify-center z-50 p-8">
     <button id="close-btn" class="absolute top-6 right-6 text-4xl text-white hover:text-gray-400 transition">×</button>
     <button id="prev-btn" class="absolute left-6 top-1/2 -translate-y-1/2 text-5xl text-white hover:text-gray-400 transition">‹</button>
     <button id="next-btn" class="absolute right-6 top-1/2 -translate-y-1/2 text-5xl text-white hover:text-gray-400 transition">›</button>
     <div class="flex flex-col items-center max-w-5xl w-full">
         <img id="lightbox-img" class="max-w-full max-h-full object-contain mb-4" src="" alt="">
-        <p id="lightbox-caption" class="text-lg md:text-xl text-white/90 font-medium text-center px-4 opacity-0 transition-opacity duration-300 bg-black/60 backdrop-blur-sm py-3 rounded-lg"></p>
+        <p id="lightbox-caption" class="text-lg md:text-xl text-white/90 font-medium text-center px-4 opacity-0 transition-opacity duration-300"></p>
     </div>
 </div>
 
-<!-- SCRIPT: lightbox + auto-apply correct classes on load/resizes (keeps grid stable) -->
+<!-- SCRIPT -->
 <script>
-    (function () {
-        // LIGHTBOX logic — same as your original (slightly refactored)
-        const items = Array.from(document.querySelectorAll('.mosaic-item'));
+    document.addEventListener("DOMContentLoaded", () => {
+        const items = document.querySelectorAll('.mosaic-item');
+        const grid = document.querySelector('.mosaic-grid');
+
+        // === Auto-generate mosaic pattern ===
+        let currentRow = 1;
+        for (let i = 0; i < items.length; ) {
+            const isStyleA = Math.floor(i / 7) % 2 === 0; // alternate every 7 items (A=3, B=4)
+
+            if (isStyleA) {
+                if (i + 2 >= items.length) break;
+                // Style A (3 images)
+                items[i].style.gridColumn = "1 / span 4";
+                items[i].style.gridRow = `${currentRow} / span 4`;
+                items[i+1].style.gridColumn = "5 / span 2";
+                items[i+1].style.gridRow = `${currentRow} / span 2`;
+                items[i+2].style.gridColumn = "5 / span 2";
+                items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
+                i += 3;
+            } else {
+                if (i + 3 >= items.length) break;
+                // Style B (4 images)
+                items[i].style.gridColumn = "1 / span 2";
+                items[i].style.gridRow = `${currentRow} / span 2`;
+                items[i+1].style.gridColumn = "3 / span 2";
+                items[i+1].style.gridRow = `${currentRow} / span 2`;
+                items[i+2].style.gridColumn = "1 / span 4";
+                items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
+                items[i+3].style.gridColumn = "5 / span 2";
+                items[i+3].style.gridRow = `${currentRow} / span 4`;
+                i += 4;
+            }
+
+            currentRow += 4;
+        }
+
+        // === Lightbox ===
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxCaption = document.getElementById('lightbox-caption');
@@ -176,76 +200,46 @@
         let currentIndex = 0;
 
         items.forEach((item, i) => {
-            item.addEventListener('click', () => { currentIndex = i; openLightbox(); });
+            item.addEventListener('click', () => {
+                currentIndex = i;
+                openLightbox();
+            });
         });
 
         function openLightbox() {
             const img = items[currentIndex].querySelector('img');
             lightboxImg.src = img.src;
             lightboxCaption.textContent = img.dataset.caption || '';
-            lightbox.classList.remove('hidden'); lightbox.classList.add('flex');
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
             document.body.style.overflow = 'hidden';
             setTimeout(() => lightboxCaption.classList.replace('opacity-0', 'opacity-100'), 100);
         }
 
         function closeLightbox() {
-            lightbox.classList.add('hidden'); lightbox.classList.remove('flex');
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
             document.body.style.overflow = 'auto';
-            if (lightboxCaption.classList.contains('opacity-100')) lightboxCaption.classList.replace('opacity-100','opacity-0');
+            lightboxCaption.classList.replace('opacity-100', 'opacity-0');
         }
 
         function updateLightbox() {
             const img = items[currentIndex].querySelector('img');
             lightboxImg.src = img.src;
             lightboxCaption.textContent = img.dataset.caption || '';
-            lightboxCaption.classList.remove('opacity-100');
-            void lightboxCaption.offsetWidth;
-            lightboxCaption.classList.add('opacity-100');
         }
 
         prevBtn.onclick = () => { currentIndex = (currentIndex - 1 + items.length) % items.length; updateLightbox(); };
         nextBtn.onclick = () => { currentIndex = (currentIndex + 1) % items.length; updateLightbox(); };
         closeBtn.onclick = closeLightbox;
-
         document.addEventListener('keydown', e => {
             if (!lightbox.classList.contains('flex')) return;
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowLeft') prevBtn.click();
             if (e.key === 'ArrowRight') nextBtn.click();
         });
-
         lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-
-        // Helper: ensure images preserve their aspect and force reflow so grid rows align cleanly.
-        function ensureImagesLoaded(container) {
-            const imgs = Array.from(container.querySelectorAll('img'));
-            return Promise.all(imgs.map(img => {
-                if (img.complete && img.naturalWidth !== 0) return Promise.resolve();
-                return new Promise(resolve => { img.onload = img.onerror = resolve; });
-            }));
-        }
-
-        // On load, wait for images then (optionally) tweak grid-row spans to get tighter packing.
-        (async function initMosaic() {
-            const grid = document.getElementById('mosaic');
-            await ensureImagesLoaded(grid);
-            // If you want to further tune vertical spans (e.g., match the visual proportions more closely),
-            // you can compute required rowSpan per item here and set style.gridRowEnd.
-            // For now we rely on the CSS nth-child placement above which matches the screenshot pattern.
-            // Force a layout reflow to make sure everything snaps in place:
-            grid.style.visibility = 'visible';
-            void grid.offsetWidth;
-        })();
-
-        // Reflow on resize (recalculate if you implement dynamic row spans).
-        let resizeId = null;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeId);
-            resizeId = setTimeout(() => {
-                // placeholder for recalculation if desired later
-            }, 150);
-        });
-    })();
+    });
 </script>
 
 </body>
