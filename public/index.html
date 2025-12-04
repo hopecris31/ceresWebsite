@@ -132,6 +132,13 @@
             navbar.classList.remove('scrolled');
         }
     });
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+        // Force correct state on fresh page load
+        if (window.scrollY <= 80) {
+            navbar.classList.remove('scrolled');
+        }
+    });
 </script>
 
 </body>

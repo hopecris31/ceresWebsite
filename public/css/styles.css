@@ -3,38 +3,22 @@
 @tailwind utilities;
 
 /* ================== NAVBAR ================== */
+/* ================== NAVBAR - FINAL & BULLETPROOF ================== */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 50;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 3rem;
+    @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center;
     background: transparent;
-    transition: all 0.5s ease;
-    @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center
-    bg-transparent text-white pt-6;
-    padding-left: 6rem;
-    padding-right: 9rem;
+    padding: 2rem 9rem 2rem 6rem;     /* top | right | bottom | left */
     transition: all 0.5s ease;
 }
 
 .navbar.scrolled {
-    background: rgba(30, 30, 30, 0.85);
-    backdrop-filter: blur(10px);
-    padding: 0.75rem 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    @apply bg-black/85 backdrop-blur-md pt-4 pb-4;
-    padding-left: 4rem !important;
-    padding-right: 6rem !important;
+    @apply bg-black/85 backdrop-blur-md;
+    padding: 1rem 6rem 1rem 4rem;     /* smaller when scrolled */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navbar.scrolled .logo {
-    height: 4.5rem !important;
+    height: 4.5rem;                   /* logo shrinks on scroll */
 }
 
 .navbar.scrolled .nav-item {
