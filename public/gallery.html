@@ -68,13 +68,15 @@
 <body class="bg-gray-900 text-white overflow-x-hidden">
 
 <!-- NAVBAR -->
-<nav class="navbar">
+<nav class="navbar transition-all duration-500 ease-in-out">
     <div class="logo-wrapper">
         <a href="/" class="nav-item flex items-center">
-            <img src="/images/ceresTransparent.png" alt="Ceres Logo" class="h-24 w-auto">
+            <img src="/images/ceresWhitescale.png"
+                 alt="Ceres Logo"
+                 class="logo h-24 w-auto transition-all duration-500 ease-in-out white-svg">
         </a>
     </div>
-    <div class="menu-wrapper">
+    <div class="menu-wrapper transition-all duration-500 ease-in-out">
         <a href="/about"      class="nav-item">ABOUT</a>
         <a href="/properties" class="nav-item">PROPERTIES</a>
         <a href="/news"       class="nav-item">NEWS</a>
@@ -85,10 +87,9 @@
 
 <!-- HEADER -->
 <header class="py-20 text-center">
-    <h1 class="text-5xl md:text-7xl font-bold tracking-wider" style="font-family: 'Sora', sans-serif; margin-top: 15px;">
+    <h1 class="text-5xl md:text-7xl font-bold tracking-wider" style="font-family: 'Avenir LT Pro 55 Roman', sans-serif; margin-top: 15px;">
         GALLERY
     </h1>
-    <h1 class="text-5xl md:text-7xl font-bold tracking-wider" style="font-family: 'Avenir LT Pro 55 Roman', sans-serif;">GALLERY</h1>
 </header>
 
 <!-- MOSAIC GRID -->
@@ -268,6 +269,27 @@
             if (e.key === 'ArrowRight') nextBtn.click();
         });
         lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    });
+
+        // Keep navbar perfectly consistent across pages
+        document.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+
+        // Force correct state immediately on page load
+        if (window.scrollY <= 80) {
+            navbar.classList.remove('scrolled');
+        } else {
+            navbar.classList.add('scrolled');
+        }
+
+        // Then listen for scroll as usual
+        window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        });
     });
 </script>
 

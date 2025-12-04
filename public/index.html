@@ -5,50 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Home</title>
     <link href="/css/output.css" rel="stylesheet">
-    <link href="https://db.onlinewebfonts.com/c/d1bfb85795ca505281f9cee67b285c9a?family=Avenir+LT+Pro+55+Roman" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="/js/main.js" defer></script>
 
     <style>
-        /* ================== NAVBAR ================== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 3rem;
-            background: transparent;
-            transition: all 0.5s ease;
-        }
-
-        .nav-item {
-            margin: 0 1.25rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            font-family: 'Sora', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            background: rgba(30, 30, 30, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .navbar.scrolled .logo {
-            height: 4rem; /* Shrink logo */
-        }
-
-        .navbar.scrolled .nav-item {
-            font-size: 0.9rem;
-            letter-spacing: 0.06em;
-        }
-
         /* ================== SLIDER ================== */
         .slide {
             opacity: 0;
@@ -78,7 +41,9 @@
 <nav class="navbar transition-all duration-500 ease-in-out">
     <div class="logo-wrapper">
         <a href="/" class="nav-item flex items-center">
-            <img src="/images/ceresTransparent.png" alt="Ceres Logo" class="logo h-24 w-auto transition-all duration-500 ease-in-out">
+            <img src="/images/ceresWhitescale.png"
+                 alt="Ceres Logo"
+                 class="logo h-24 w-auto transition-all duration-500 ease-in-out white-svg">
         </a>
     </div>
     <div class="menu-wrapper transition-all duration-500 ease-in-out">
