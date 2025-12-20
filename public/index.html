@@ -63,6 +63,7 @@
 <main class="snap-container scroll-snap-slow">
 
     <!-- SECTION 1: Image Slider -->
+    <!-- SECTION 1: Image Slider -->
     <section class="snap-section relative h-screen w-full overflow-hidden">
         <!-- Slides -->
         <div class="slide active">
@@ -84,17 +85,17 @@
         <!-- Dark overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30 pointer-events-none"></div>
 
-        <!-- Hero Text – Now using Bodoni Moda SC -->
-        <div class="absolute inset-0 flex items-center z-10 pointer-events-none">
-            <div class="max-w-7xl pl-12 md:pl-24 lg:pl-32">
-                <!-- Top line – Bodoni Moda SC (Small Caps) -->
-                <h4 class="text-4xl md:text-6xl lg:text-7xl tracking-wider text-white/95 font-light leading-tight mb-6 md:mb-8 font-playfair-display-sc-regular">
-                    Rooted in excellence. Refined in every detail.
+        <!-- Hero Text – Symmetrical, spaced from navbar, elegant Bodoni Moda SC -->
+        <div class="absolute inset-0 flex flex-col justify-center items-start z-10 pointer-events-none">
+            <div class="max-w-7xl pl-12 md:pl-24 lg:pl-32 pt-24 md:pt-32 lg:pt-40"> <!-- Added top padding for space below navbar -->
+                <!-- Top line – Elegant, slightly smaller, italic Small Caps -->
+                <h4 class="text-5xl md:text-7xl lg:text-8xl tracking-wider text-white/95 font-light leading-tight mb-8 md:mb-12 font-playfair-display-sc-regular text-left">
+                    Rooted in Excellence.<br class="md:hidden"> Refined in Every Detail.
                 </h4>
 
-                <!-- Bottom line – Bodoni Moda SC (bold) -->
-                <h3 class="text-7xl md:text-9xl lg:text-[11rem] font-bold tracking-tight text-white drop-shadow-2xl leading-none font-playfair-display-sc-regular">
-                    Hospitality redefined.
+                <!-- Bottom line – Bold, massive Small Caps, centered on desktop -->
+                <h3 class="text-6xl md:text-9xl lg:text-[12rem] font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-none font-playfair-display-sc-regular uppercase text-left md:text-left">
+                    HOSPITALITY REDEFINED.
                 </h3>
             </div>
         </div>
