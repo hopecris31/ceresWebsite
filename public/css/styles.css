@@ -1,36 +1,55 @@
-/*styles.css */
-
+/* ================== TAILWIND BASE ================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ================== CUSTOM STYLES ================== */
+
+/* Force headings to use custom fonts and disable ligatures */
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit !important;
+    font-variant-ligatures: none !important;
+}
+
+.font-playfair-display-sc-regular {
+    font-family: 'Playfair Display SC', serif !important;
+    font-variant-ligatures: none !important;
+}
 
 /* ================== NAVBAR ================== */
 .navbar {
     @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center;
     background: transparent;
-    padding: 2rem 9rem 2rem 6rem;     /* top | right | bottom | left */
+    padding: 2rem 9rem 2rem 6rem; /* Original desktop padding */
     transition: all 0.5s ease;
 }
 
 .navbar.scrolled {
     @apply bg-black/85 backdrop-blur-md;
-    padding: 1rem 6rem 1rem 4rem;     /* smaller when scrolled */
+    padding: 1rem 6rem 1rem 4rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* Logo */
+.logo {
+    height: 6rem;           /* Desktop */
+    width: auto;
+    min-width: 120px;       /* Prevents squeezing */
+    object-fit: contain;
+    transition: all 0.5s ease;
+}
+
 .navbar.scrolled .logo {
-    height: 4.5rem;                   /* logo shrinks on scroll */
+    height: 4.5rem;         /* Smaller when scrolled */
+    min-width: 100px;
 }
 
-.navbar.scrolled .nav-item {
-    font-size: 0.9rem;
-    letter-spacing: 0.06em;
-}
-
+/* Logo wrapper – restores original left position */
 .logo-wrapper {
-    @apply flex items-center pl-24;
+    @apply flex items-center pl-24; /* pl-24 = 6rem – original logo position */
 }
 
+/* Menu items */
 .menu-wrapper {
     @apply flex space-x-6 pr-36;
 }
@@ -45,6 +64,46 @@
     letter-spacing: 0.5px;
 }
 
+/* Hamburger */
+.hamburger {
+    @apply text-white focus:outline-none;
+}
+
+/* Mobile Menu */
+#mobile-menu {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#mobile-menu.show {
+    display: block !important;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1.5rem 1.5rem; /* Less padding on mobile */
+    }
+
+    .logo-wrapper {
+        padding-left: 1rem;     /* Clean on mobile */
+    }
+
+    .logo {
+        height: 5rem;           /* Still clear */
+        min-width: 100px;
+    }
+
+    .hamburger {
+        font-size: 2rem;
+    }
+
+    .menu-wrapper {
+        display: none;
+    }
+}
+
 /* ================== IMAGE SLIDER ================== */
 .slide {
     @apply absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out;
@@ -53,7 +112,7 @@
     @apply opacity-100;
 }
 
-/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
+/* ================== SCROLL SNAP ================== */
 .snap-container {
     @apply scroll-smooth overflow-y-auto h-screen;
     scroll-snap-type: y proximity;
@@ -65,7 +124,7 @@
     scroll-snap-stop: always;
 }
 
-/* Custom slow scroll animation */
+/* Custom slow scroll */
 @layer utilities {
     .scroll-snap-slow {
         scroll-behavior: smooth;
@@ -100,7 +159,7 @@
     @apply scale-110;
 }
 
-/* UNIQUE SIZES */
+/* Unique sizes */
 .size-sm   { height: 180px; }
 .size-md   { height: 240px; }
 .size-lg   { height: 320px; }
@@ -112,15 +171,17 @@
     @apply bg-black/60 backdrop-blur-sm py-3 px-6;
 }
 
+/* White SVG filter */
 .white-svg {
     filter: brightness(0) invert(1);
     transition: filter 0.3s ease;
 }
 
 .white-svg:hover {
-    filter: brightness(0) invert(0.8); /* slightly off-white on hover */
+    filter: brightness(0) invert(0.8);
 }
 
+/* Optional: Add this if you have other custom fonts or styles */
 @font-face {
     font-family: 'Nazanin LT Light';
     src: url('https://db.onlinewebfonts.com/t/96c8633ebdfa7c72b6f6ebe5f500bf16.woff2') format('woff2'),
@@ -130,7 +191,6 @@
     font-display: swap;
 }
 
-/* Apply globally to these headings */
 h4, h3 {
     font-family: 'Nazanin LT Light', 'Palatino Linotype', Palatino, serif;
 }
