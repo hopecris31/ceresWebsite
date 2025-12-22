@@ -7,12 +7,13 @@
 
     <!-- Tailwind CSS -->
     <link href="/css/output.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 
-    <!-- Google Fonts – Includes Bodoni Moda SC (Small Caps) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Myeongjo&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Myeongjo&family=Urbanist:ital,wght@0,100..900;1,100..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="/js/main.js" defer></script>
@@ -42,7 +43,7 @@
 <body class="bg-gray-800 text-white overflow-x-hidden">
 
 <!-- Floating Navbar -->
-<nav class="navbar transition-all duration-500 ease-in-out">
+<nav class="navbar transition-all duration-500 ease-in-out z-50">
     <div class="logo-wrapper">
         <a href="/" class="nav-item flex items-center">
             <img src="/images/ceresWhitescale.png"
@@ -62,7 +63,6 @@
 <!-- Scroll-Snap Container -->
 <main class="snap-container scroll-snap-slow">
 
-    <!-- SECTION 1: Image Slider -->
     <!-- SECTION 1: Image Slider -->
     <section class="snap-section relative h-screen w-full overflow-hidden">
         <!-- Slides -->
@@ -85,18 +85,18 @@
         <!-- Dark overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30 pointer-events-none"></div>
 
-        <!-- Hero Text – Symmetrical, spaced from navbar, elegant Bodoni Moda SC -->
-        <div class="absolute inset-0 flex flex-col justify-center items-start z-10 pointer-events-none">
-            <div class="max-w-7xl pl-12 md:pl-24 lg:pl-32 pt-24 md:pt-32 lg:pt-40"> <!-- Added top padding for space below navbar -->
-                <!-- Top line – Elegant, slightly smaller, italic Small Caps -->
-                <h4 class="text-5xl md:text-7xl lg:text-8xl tracking-wider text-white/95 font-light leading-tight mb-8 md:mb-12 font-playfair-display-sc-regular text-left">
+        <!-- Hero Text – Elegant, centered vertically, clears navbar -->
+        <div class="absolute inset-0 flex flex-col justify-center items-start z-10 pointer-events-none pt-40 md:pt-56 lg:pt-72">
+            <div class="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+                <!-- Top line -->
+                <h6 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-white/95 font-light leading-tight mb-6 md:mb-10 font-playfair-display-sc-regular text-left">
                     Rooted in Excellence.<br class="md:hidden"> Refined in Every Detail.
-                </h4>
+                </h6>
 
-                <!-- Bottom line – Bold, massive Small Caps, centered on desktop -->
-                <h3 class="text-6xl md:text-9xl lg:text-[12rem] font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-none font-playfair-display-sc-regular uppercase text-left md:text-left">
+                <!-- Bottom line -->
+                <h5 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular text-left">
                     HOSPITALITY REDEFINED.
-                </h3>
+                </h5>
             </div>
         </div>
     </section>

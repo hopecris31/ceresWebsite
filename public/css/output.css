@@ -1,3 +1,5 @@
+/*styles.css */
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -106,9 +108,7 @@
   --tw-contain-style:  ;
 }
 
-/*
-! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com
-*/
+/*! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -714,6 +714,10 @@ video {
   flex-direction: column;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-center {
   align-items: center;
 }
@@ -801,8 +805,12 @@ video {
   padding-bottom: 5rem;
 }
 
-.pl-12 {
-  padding-left: 3rem;
+.pt-40 {
+  padding-top: 10rem;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .text-center {
@@ -811,6 +819,11 @@ video {
 
 .font-playfair-display-sc-regular {
   font-family: Playfair Display SC, serif;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .text-4xl {
@@ -825,11 +838,6 @@ video {
 
 .text-6xl {
   font-size: 3.75rem;
-  line-height: 1;
-}
-
-.text-7xl {
-  font-size: 4.5rem;
   line-height: 1;
 }
 
@@ -850,8 +858,8 @@ video {
   font-weight: 500;
 }
 
-.leading-none {
-  line-height: 1;
+.uppercase {
+  text-transform: uppercase;
 }
 
 .leading-relaxed {
@@ -862,8 +870,8 @@ video {
   line-height: 1.25;
 }
 
-.tracking-tight {
-  letter-spacing: -0.025em;
+.tracking-\[-0\.02em\] {
+  letter-spacing: -0.02em;
 }
 
 .tracking-wide {
@@ -962,6 +970,7 @@ video {
   justify-content: space-between;
   background: transparent;
   padding: 2rem 9rem 2rem 6rem;
+  /* top | right | bottom | left */
   transition: all 0.5s ease;
 }
 
@@ -970,11 +979,13 @@ video {
   --tw-backdrop-blur: blur(12px);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   padding: 1rem 6rem 1rem 4rem;
+  /* smaller when scrolled */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navbar.scrolled .logo {
   height: 4.5rem;
+  /* logo shrinks on scroll */
 }
 
 .navbar.scrolled .nav-item {
@@ -1053,7 +1064,7 @@ video {
   opacity: 1;
 }
 
-/* ================== SCROLL SNAP ================== */
+/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
 
 .snap-container {
   height: 100vh;
@@ -1068,18 +1079,173 @@ video {
   scroll-snap-stop: always;
 }
 
+/* Custom slow scroll animation */
+
+/* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
+
+.mosaic-container {
+  -moz-columns: 2;
+       columns: 2;
+  gap: 1rem;
+}
+
+.mosaic-container > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
+
+.mosaic-container {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .mosaic-container {
+    -moz-columns: 3;
+         columns: 3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mosaic-container {
+    -moz-columns: 4;
+         columns: 4;
+  }
+}
+
+.mosaic-item {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.mosaic-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.mosaic-item img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.mosaic-item:hover img {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+/* UNIQUE SIZES */
+
+.size-sm   {
+  height: 180px;
+}
+
+.size-md   {
+  height: 240px;
+}
+
+.size-lg   {
+  height: 320px;
+}
+
+.size-wide {
+  height: 200px;
+}
+
+.size-tall {
+  height: 380px;
+}
+
+/* Lightbox caption */
+
+#lightbox-caption {
+  background-color: rgb(0 0 0 / 0.6);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  --tw-backdrop-blur: blur(4px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
+.white-svg {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.white-svg:hover {
+  filter: brightness(0) invert(0.8);
+  /* slightly off-white on hover */
+}
+
+@font-face {
+  font-family: 'Nazanin LT Light';
+
+  src: url('https://db.onlinewebfonts.com/t/96c8633ebdfa7c72b6f6ebe5f500bf16.woff2') format('woff2'),
+    url('https://db.onlinewebfonts.com/t/96c8633ebdfa7c72b6f6ebe5f500bf16.woff') format('woff');
+
+  font-weight: 300;
+
+  font-style: normal;
+
+  font-display: swap;
+}
+
+/* Apply globally to these headings */
+
+h4, h3 {
+  font-family: 'Nazanin LT Light', 'Palatino Linotype', Palatino, serif;
+}
+
 .hover\:text-gray-400:hover {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
 }
 
-@media (min-width: 768px) {
-  .md\:mb-8 {
-    margin-bottom: 2rem;
+@media (min-width: 640px) {
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
-  .md\:pl-24 {
-    padding-left: 6rem;
+  .sm\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:mb-10 {
+    margin-bottom: 2.5rem;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .md\:pt-56 {
+    padding-top: 14rem;
+  }
+
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
   }
 
   .md\:text-6xl {
@@ -1097,11 +1263,6 @@ video {
     line-height: 1;
   }
 
-  .md\:text-9xl {
-    font-size: 8rem;
-    line-height: 1;
-  }
-
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -1109,16 +1270,22 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:pl-32 {
-    padding-left: 8rem;
+  .lg\:px-24 {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .lg\:pt-72 {
+    padding-top: 18rem;
+  }
+
+  .lg\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
   }
 
   .lg\:text-7xl {
     font-size: 4.5rem;
     line-height: 1;
-  }
-
-  .lg\:text-\[11rem\] {
-    font-size: 11rem;
   }
 }

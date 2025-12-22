@@ -1,3 +1,5 @@
+/*styles.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,18 +8,18 @@
 .navbar {
     @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center;
     background: transparent;
-    padding: 2rem 9rem 2rem 6rem;
+    padding: 2rem 9rem 2rem 6rem;     /* top | right | bottom | left */
     transition: all 0.5s ease;
 }
 
 .navbar.scrolled {
     @apply bg-black/85 backdrop-blur-md;
-    padding: 1rem 6rem 1rem 4rem;
+    padding: 1rem 6rem 1rem 4rem;     /* smaller when scrolled */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navbar.scrolled .logo {
-    height: 4.5rem;
+    height: 4.5rem;                   /* logo shrinks on scroll */
 }
 
 .navbar.scrolled .nav-item {
@@ -51,7 +53,7 @@
     @apply opacity-100;
 }
 
-/* ================== SCROLL SNAP ================== */
+/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
 .snap-container {
     @apply scroll-smooth overflow-y-auto h-screen;
     scroll-snap-type: y proximity;
@@ -63,9 +65,72 @@
     scroll-snap-stop: always;
 }
 
+/* Custom slow scroll animation */
 @layer utilities {
     .scroll-snap-slow {
         scroll-behavior: smooth;
         transition: scroll 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+}
+
+/* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
+.mosaic-container {
+    @apply columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4;
+}
+
+.mosaic-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.mosaic-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.mosaic-item img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.mosaic-item:hover img {
+    @apply scale-110;
+}
+
+/* UNIQUE SIZES */
+.size-sm   { height: 180px; }
+.size-md   { height: 240px; }
+.size-lg   { height: 320px; }
+.size-wide { height: 200px; }
+.size-tall { height: 380px; }
+
+/* Lightbox caption */
+#lightbox-caption {
+    @apply bg-black/60 backdrop-blur-sm py-3 px-6;
+}
+
+.white-svg {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.white-svg:hover {
+    filter: brightness(0) invert(0.8); /* slightly off-white on hover */
+}
+
+@font-face {
+    font-family: 'Nazanin LT Light';
+    src: url('https://db.onlinewebfonts.com/t/96c8633ebdfa7c72b6f6ebe5f500bf16.woff2') format('woff2'),
+    url('https://db.onlinewebfonts.com/t/96c8633ebdfa7c72b6f6ebe5f500bf16.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Apply globally to these headings */
+h4, h3 {
+    font-family: 'Nazanin LT Light', 'Palatino Linotype', Palatino, serif;
 }
