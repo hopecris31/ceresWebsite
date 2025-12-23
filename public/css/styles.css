@@ -132,6 +132,15 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* ================== WORD DROP-IN ANIMATION ================== */
+/* Words start hidden and positioned above - CSS handles initial state */
+/* GSAP animates TO the final visible state on scroll */
+.word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-150px);
+}
+
 /* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
 .mosaic-container {
     @apply columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4;

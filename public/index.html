@@ -14,13 +14,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- GSAP Core -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/gsap.min.js"></script>
-    <!-- ScrollTrigger Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.min.js"></script>
-
-    <script src="/js/main.js" defer></script>
-
     <style>
         /* Slider */
         .slide {
@@ -42,24 +35,67 @@
             flex-shrink: 0;
         }
 
-        /* Hide words until animation */
+        /*WORD DROP-IN ANIMATION */
+
+        /* Words start hidden and above their final position */
         .word {
             display: inline-block;
             opacity: 0;
-            visibility: hidden;
+            transform: translateY(-80px);
+            transition: opacity 4.0s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 4.0s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* When section has .animate class, words drop in */
+        .animate .word {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger the animations with delays */
+        .animate .word:nth-child(1) {
+            transition-delay: 0s;
+        }
+        .animate .word:nth-child(2) {
+            transition-delay: 0.5s;
+        }
+        .animate .word:nth-child(3) {
+            transition-delay: 1.0s;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 6rem;
+            background: transparent;
+            transition: all 0.5s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 1rem 4rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
 <body class="bg-gray-800 text-white overflow-x-hidden">
 
 <!-- Floating Navbar -->
-<nav class="navbar transition-all duration-500 ease-in-out z-50 fixed top-0 left-0 right-0">
+<nav class="navbar" id="navbar">
     <div class="logo-wrapper flex items-center">
         <a href="/" class="flex items-center">
             <img src="/images/ceresWhitescale.png" alt="Ceres Logo" class="logo transition-all duration-500 ease-in-out white-svg">
         </a>
     </div>
-    <button class="hamburger md:hidden text-white text-3xl focus:outline-none">☰</button>
+    <button class="hamburger md:hidden text-white text-3xl focus:outline-none" id="hamburger">☰</button>
     <div class="menu-wrapper hidden md:flex space-x-6 pr-36">
         <a href="/about" class="nav-item">ABOUT</a>
         <a href="/properties" class="nav-item">PROPERTIES</a>
@@ -78,7 +114,7 @@
     </div>
 </nav>
 
-<main class="snap-container scroll-snap-slow">
+<main class="snap-container scroll-snap-slow" id="scroll-container">
     <section class="snap-section relative h-screen w-full overflow-hidden">
         <div class="slide active">
             <img src="/images/westfield.png" class="absolute inset-0 w-full h-full object-cover" alt="Westfield">
@@ -111,13 +147,11 @@
         </div>
     </section>
 
-    <!-- SECTION 2: Content -->
+    <!-- SECTION 2: Content with animated words -->
     <section class="snap-section flex items-center justify-center bg-gray-900 h-screen px-4 sm:px-6 md:px-8 lg:px-12" id="section-2">
-        <div class="w-full max-w-screen-2xl text-center">
+        <div class="w-full max-w-screen-2xl text-center" id="words-container">
             <h4 class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 font-playfair-display-sc-regular tracking-wide leading-tight">
-                <span class="word">Building</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <span class="word">Development</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <span class="word">Management</span>
+                <span class="word">Building</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="word">Development</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="word">Management</span>
             </h4>
             <br/>
             <br/>
@@ -130,8 +164,10 @@
     </section>
 </main>
 
-<!-- Slider & Scroll Logic -->
 <script>
+    // =============================================
+    // IMAGE SLIDER
+    // =============================================
     const slides = document.querySelectorAll('.slide');
     let current = 0;
 
@@ -143,26 +179,72 @@
 
     setInterval(nextSlide, 10000);
 
-    slides.forEach(slide => {
+    // Preload images
+    slides.forEach(function(slide) {
         const img = slide.querySelector('img');
-        if (img) new Image().src = img.src;
+        if (img) {
+            const preload = new Image();
+            preload.src = img.src;
+        }
     });
 
-    window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 80) {
+    // =============================================
+    // NAVBAR SCROLL EFFECT
+    // =============================================
+    const scrollContainer = document.getElementById('scroll-container');
+    const navbar = document.getElementById('navbar');
+
+    scrollContainer.addEventListener('scroll', function() {
+        if (scrollContainer.scrollTop > 80) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY <= 80) {
-            navbar.classList.remove('scrolled');
-        }
+    // =============================================
+    // MOBILE MENU TOGGLE
+    // =============================================
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', function() {
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // =============================================
+    // WORD DROP-IN ANIMATION
+    // Triggers when section 2 comes into view
+    // Animation only plays once
+    // =============================================
+    const section2 = document.getElementById('section-2');
+    const wordsContainer = document.getElementById('words-container');
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting && !hasAnimated) {
+                hasAnimated = true;
+
+                // Add the 'animate' class to trigger CSS animations
+                wordsContainer.classList.add('animate');
+
+                // Stop observing - animation only plays once
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: scrollContainer,
+        threshold: 0.3
     });
+
+    observer.observe(section2);
 </script>
 
 </body>

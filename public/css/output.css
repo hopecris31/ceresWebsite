@@ -1196,6 +1196,18 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom slow scroll */
 
+/* ================== WORD DROP-IN ANIMATION ================== */
+
+/* Words start hidden and positioned above - CSS handles initial state */
+
+/* GSAP animates TO the final visible state on scroll */
+
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-150px);
+}
+
 /* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
 
 .mosaic-container {

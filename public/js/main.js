@@ -14,9 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Force a refresh of ScrollTrigger (fixes scroll-snap issues)
-    ScrollTrigger.refresh();
-
     const words = document.querySelectorAll(".word");
 
     // Debug: Confirm we found the words
@@ -24,23 +21,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (words.length === 0) {
         console.error("No .word elements found! Check your HTML.");
+        return;
     }
 
-    // Animate words – this is the most reliable way with scroll-snap
-    gsap.from(words, {
-        y: -150,                // Drop from higher up for more drama
-        opacity: 0,
+    // IMPORTANT: The words are already hidden via CSS (opacity: 0, transform: translateY(-150px))
+    // We use gsap.to() to animate them TO their visible final state
+    // The scroller is the .snap-container, NOT the window (because of scroll-snap)
+
+    gsap.to(words, {
+        y: 0,                   // Animate TO y: 0 (from CSS translateY(-150px))
+        opacity: 1,             // Animate TO opacity: 1 (from CSS opacity: 0)
         duration: 1.2,
         ease: "power4.out",
-        stagger: 0.4,           // Longer stagger so you really see them come in one by one
+        stagger: 0.4,           // Each word drops in 0.4s after the previous
         scrollTrigger: {
             trigger: "#section-2",
-            start: "top 85%",       // Trigger when top of section is near bottom of viewport
-            end: "bottom 15%",      // Keep it active longer
-            toggleActions: "play none none reverse", // Play once, reverse on scroll up
-            markers: true,          // SHOWS GREEN/PINK MARKERS ON SCREEN – TURN OFF LATER
-            // markers: false,      // Uncomment this when it's working
-            once: false             // Let it replay on scroll up/down for testing
+            scroller: ".snap-container",  // CRITICAL: Use the snap container as scroller
+            start: "top 80%",             // Trigger when section top hits 80% of viewport
+            end: "top 20%",
+            toggleActions: "play none none reverse",
+            markers: false,               // Set to true for debugging
+            once: false
         }
     });
+
+    // Refresh ScrollTrigger after setup (important for scroll-snap containers)
+    ScrollTrigger.refresh();
+
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('show');
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
 });
