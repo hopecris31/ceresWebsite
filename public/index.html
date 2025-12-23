@@ -5,86 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Home</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (compiled) -->
     <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
     <link href="/css/styles.css" rel="stylesheet">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <style>
-        /* Slider */
-        .slide {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        .slide.active {
-            opacity: 1;
-        }
-
-        /* Scroll Snap */
-        .snap-container {
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
-            height: 100vh;
-        }
-        .snap-section {
-            scroll-snap-align: start;
-            flex-shrink: 0;
-        }
-
-        /*WORD DROP-IN ANIMATION */
-
-        /* Words start hidden and above their final position */
-        .word {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(-80px);
-            transition: opacity 4.0s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 4.0s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* When section has .animate class, words drop in */
-        .animate .word {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Stagger the animations with delays */
-        .animate .word:nth-child(1) {
-            transition-delay: 0s;
-        }
-        .animate .word:nth-child(2) {
-            transition-delay: 0.5s;
-        }
-        .animate .word:nth-child(3) {
-            transition-delay: 1.0s;
-        }
-
-        /* Navbar styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 6rem;
-            background: transparent;
-            transition: all 0.5s ease;
-        }
-
-        .navbar.scrolled {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 1rem 4rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-    </style>
 </head>
 <body class="bg-gray-800 text-white overflow-x-hidden">
 
@@ -92,18 +22,18 @@
 <nav class="navbar" id="navbar">
     <div class="logo-wrapper flex items-center">
         <a href="/" class="flex items-center">
-            <img src="/images/ceresWhitescale.png" alt="Ceres Logo" class="logo transition-all duration-500 ease-in-out white-svg">
+            <img src="/images/ceresWhitescale.png" alt="Ceres Logo" class="logo white-svg">
         </a>
     </div>
-    <button class="hamburger md:hidden text-white text-3xl focus:outline-none" id="hamburger">☰</button>
-    <div class="menu-wrapper hidden md:flex space-x-6 pr-36">
+    <button class="hamburger md:hidden" id="hamburger" aria-label="Toggle menu">☰</button>
+    <div class="menu-wrapper hidden md:flex">
         <a href="/about" class="nav-item">ABOUT</a>
         <a href="/properties" class="nav-item">PROPERTIES</a>
         <a href="/news" class="nav-item">NEWS</a>
         <a href="/gallery" class="nav-item">GALLERY</a>
         <a href="/contact" class="nav-item">CONTACT</a>
     </div>
-    <div id="mobile-menu" class="hidden fixed top-24 left-0 right-0 bg-black/95 backdrop-blur-md py-6 px-8 md:hidden z-40">
+    <div id="mobile-menu" class="mobile-menu hidden">
         <div class="flex flex-col space-y-6 text-center">
             <a href="/about" class="nav-item text-2xl">ABOUT</a>
             <a href="/properties" class="nav-item text-2xl">PROPERTIES</a>
@@ -114,138 +44,59 @@
     </div>
 </nav>
 
-<main class="snap-container scroll-snap-slow" id="scroll-container">
-    <section class="snap-section relative h-screen w-full overflow-hidden">
+<!-- Main Content -->
+<main class="snap-container" id="scroll-container">
+
+    <!-- Hero Section -->
+    <section class="snap-section hero-section">
         <div class="slide active">
-            <img src="/images/westfield.png" class="absolute inset-0 w-full h-full object-cover" alt="Westfield">
+            <img src="/images/westfield.png" class="slide-image" alt="Westfield">
         </div>
         <div class="slide">
-            <img src="/images/fairfield.png" class="absolute inset-0 w-full h-full object-cover" alt="Fairfield">
+            <img src="/images/fairfield.png" class="slide-image" alt="Fairfield">
         </div>
         <div class="slide">
-            <img src="/images/noblesville.png" class="absolute inset-0 w-full h-full object-cover" alt="Noblesville">
+            <img src="/images/noblesville.png" class="slide-image" alt="Noblesville">
         </div>
         <div class="slide">
-            <img src="/images/orbit.png" class="absolute inset-0 w-full h-full object-cover" alt="Orbit">
+            <img src="/images/orbit.png" class="slide-image" alt="Orbit">
         </div>
         <div class="slide">
-            <img src="/images/avon.png" class="absolute inset-0 w-full h-full object-cover" alt="Avon">
+            <img src="/images/avon.png" class="slide-image" alt="Avon">
         </div>
-        <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
-        <div class="absolute inset-0 flex flex-col justify-center z-10 pointer-events-none">
-            <div class="pl-24 md:pl-32 lg:pl-40 pr-8 md:pr-16 lg:pr-24 mx-auto">
-                <h4 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-white/95 font-light leading-tight font-playfair-display-sc-regular text-left">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text-wrapper">
+                <h4 class="hero-subtitle font-playfair-display-sc-regular">
                     Rooted in Excellence.
                 </h4>
-                <h4 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-white/95 font-light leading-tight mb-6 md:mb-10 font-playfair-display-sc-regular text-left">
+                <h4 class="hero-subtitle font-playfair-display-sc-regular">
                     Refined in Every Detail.
                 </h4>
-                <h3 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular text-left">
+                <h3 class="hero-title font-playfair-display-sc-regular">
                     HOSPITALITY REDEFINED.
                 </h3>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 2: Content with animated words -->
-    <section class="snap-section flex items-center justify-center bg-gray-900 h-screen px-4 sm:px-6 md:px-8 lg:px-12" id="section-2">
-        <div class="w-full max-w-screen-2xl text-center" id="words-container">
-            <h4 class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 font-playfair-display-sc-regular tracking-wide leading-tight">
+    <!-- Services Section -->
+    <section class="snap-section services-section" id="section-2">
+        <div class="services-content" id="words-container">
+            <h4 class="services-heading font-playfair-display-sc-regular">
                 <span class="word">Building</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="word">Development</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="word">Management</span>
             </h4>
-            <br/>
-            <br/>
-            <p class="text-xl md:text-1xl lg:text-2xl xl:text-3xl font-light mb-6 tracking-wide leading-tight px-8 md:px-12 lg:px-16 xl:px-20"
-               style="font-family: 'Public Sans', sans-serif;">
+            <p class="services-description">
                 At the core of our value proposition is our guest. We are grateful for each opportunity to serve those who choose to stay with us.
                 Above all else, we strive to provide exceptional service and a personalized experience to every guest during every stay.
             </p>
         </div>
     </section>
+
 </main>
 
-<script>
-    // =============================================
-    // IMAGE SLIDER
-    // =============================================
-    const slides = document.querySelectorAll('.slide');
-    let current = 0;
-
-    function nextSlide() {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }
-
-    setInterval(nextSlide, 10000);
-
-    // Preload images
-    slides.forEach(function(slide) {
-        const img = slide.querySelector('img');
-        if (img) {
-            const preload = new Image();
-            preload.src = img.src;
-        }
-    });
-
-    // =============================================
-    // NAVBAR SCROLL EFFECT
-    // =============================================
-    const scrollContainer = document.getElementById('scroll-container');
-    const navbar = document.getElementById('navbar');
-
-    scrollContainer.addEventListener('scroll', function() {
-        if (scrollContainer.scrollTop > 80) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // =============================================
-    // MOBILE MENU TOGGLE
-    // =============================================
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', function() {
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
-            } else {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-    }
-
-    // =============================================
-    // WORD DROP-IN ANIMATION
-    // Triggers when section 2 comes into view
-    // Animation only plays once
-    // =============================================
-    const section2 = document.getElementById('section-2');
-    const wordsContainer = document.getElementById('words-container');
-    let hasAnimated = false;
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
-
-                // Add the 'animate' class to trigger CSS animations
-                wordsContainer.classList.add('animate');
-
-                // Stop observing - animation only plays once
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        root: scrollContainer,
-        threshold: 0.3
-    });
-
-    observer.observe(section2);
-</script>
+<!-- JavaScript -->
+<script src="/js/main.js"></script>
 
 </body>
 </html>

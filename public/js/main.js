@@ -1,61 +1,149 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Existing navbar hover animations
-    const navItems = document.querySelectorAll('.nav-item');
+ /* ============================================
+       CERES ENTERPRISES - MAIN JAVASCRIPT
+       ============================================
 
-    navItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            gsap.to(item, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
-        });
-        item.addEventListener('mouseleave', () => {
-            gsap.to(item, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        });
-    });
+       Table of Contents:
+       1. Image Slider
+       2. Navbar Scroll Effect
+       3. Mobile Menu Toggle
+       4. Word Drop-in Animation
 
-    // Register ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
+       ============================================ */
 
-    const words = document.querySelectorAll(".word");
+    (function() {
+        'use strict';
 
-    // Debug: Confirm we found the words
-    console.log("Words found:", words.length);
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', init);
 
-    if (words.length === 0) {
-        console.error("No .word elements found! Check your HTML.");
-        return;
-    }
-
-    // IMPORTANT: The words are already hidden via CSS (opacity: 0, transform: translateY(-150px))
-    // We use gsap.to() to animate them TO their visible final state
-    // The scroller is the .snap-container, NOT the window (because of scroll-snap)
-
-    gsap.to(words, {
-        y: 0,                   // Animate TO y: 0 (from CSS translateY(-150px))
-        opacity: 1,             // Animate TO opacity: 1 (from CSS opacity: 0)
-        duration: 1.2,
-        ease: "power4.out",
-        stagger: 0.4,           // Each word drops in 0.4s after the previous
-        scrollTrigger: {
-            trigger: "#section-2",
-            scroller: ".snap-container",  // CRITICAL: Use the snap container as scroller
-            start: "top 80%",             // Trigger when section top hits 80% of viewport
-            end: "top 20%",
-            toggleActions: "play none none reverse",
-            markers: false,               // Set to true for debugging
-            once: false
+        function init() {
+            initImageSlider();
+            initNavbarScroll();
+            initMobileMenu();
+            initWordAnimation();
         }
-    });
 
-    // Refresh ScrollTrigger after setup (important for scroll-snap containers)
-    ScrollTrigger.refresh();
 
-    // Mobile menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
+        /* ============================================
+           1. IMAGE SLIDER
+           ============================================ */
+        function initImageSlider() {
+            const slides = document.querySelectorAll('.slide');
 
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('show');
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
-});
+            if (slides.length === 0) return;
+
+            let currentSlide = 0;
+            const slideInterval = 10000; // 10 seconds
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Auto-advance slides
+            setInterval(nextSlide, slideInterval);
+
+            // Preload images for smoother transitions
+            slides.forEach(function(slide) {
+                const img = slide.querySelector('img');
+                if (img && img.src) {
+                    const preloadImg = new Image();
+                    preloadImg.src = img.src;
+                }
+            });
+        }
+
+
+        /* ============================================
+           2. NAVBAR SCROLL EFFECT
+           ============================================ */
+        function initNavbarScroll() {
+            const scrollContainer = document.getElementById('scroll-container');
+            const navbar = document.getElementById('navbar');
+
+            if (!scrollContainer || !navbar) return;
+
+            const scrollThreshold = 80;
+
+            scrollContainer.addEventListener('scroll', function() {
+                if (scrollContainer.scrollTop > scrollThreshold) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+
+        /* ============================================
+           3. MOBILE MENU TOGGLE
+           ============================================ */
+        function initMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (!hamburger || !mobileMenu) return;
+
+            hamburger.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+
+                // Update aria-expanded for accessibility
+                const isExpanded = !mobileMenu.classList.contains('hidden');
+                hamburger.setAttribute('aria-expanded', isExpanded);
+            });
+
+            // Close menu when clicking a link
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+
+        /* ============================================
+           4. WORD DROP-IN ANIMATION
+           ============================================
+
+           Uses Intersection Observer to detect when
+           section 2 enters the viewport, then triggers
+           CSS animations by adding the 'animate' class.
+
+           Animation only plays once.
+
+           ============================================ */
+        function initWordAnimation() {
+            const scrollContainer = document.getElementById('scroll-container');
+            const section = document.getElementById('section-2');
+            const wordsContainer = document.getElementById('words-container');
+
+            if (!scrollContainer || !section || !wordsContainer) return;
+
+            let hasAnimated = false;
+
+            const observerOptions = {
+                root: scrollContainer,  // Watch scroll within this container
+                threshold: 0.3          // Trigger when 30% visible
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
+
+                        // Add class to trigger CSS animation
+                        wordsContainer.classList.add('animate');
+
+                        // Stop observing - animation only plays once
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            observer.observe(section);
+        }
+
+    })();
