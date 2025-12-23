@@ -14,10 +14,11 @@ module.exports = {
             fontFamily: {
                 'playfair-display-sc-regular':   ["Playfair Display SC", "serif"],
                 'bodoni-sc':   ["Bodoni Moda SC", "serif"],
+                'urbanist':      ["Urbanist", "sans-serif"],
                 bodoni:        ["Bodoni Moda", "serif"],
-                urbanist:      ["Urbanist", "sans-serif"],
                 montserrat:    ["Montserrat", "sans-serif"],
                 nanum:         ["Nanum Myeongjo", "serif"],
+
             },
         },
     },

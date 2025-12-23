@@ -722,10 +722,6 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.resize {
-  resize: both;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -876,6 +872,11 @@ video {
   line-height: 1.75rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -997,12 +998,12 @@ video {
 /* Force headings to use custom fonts and disable ligatures */
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: inherit !important;
+  font-family: inherit;
   font-variant-ligatures: none !important;
 }
 
 .font-playfair-display-sc-regular {
-  font-family: 'Playfair Display SC', serif !important;
+  font-family: 'Playfair Display SC', serif;
   font-variant-ligatures: none !important;
 }
 
@@ -1368,6 +1369,11 @@ h4, h3 {
     display: none;
   }
 
+  .md\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
   .md\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -1426,12 +1432,22 @@ h4, h3 {
     padding-right: 3rem;
   }
 
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
   .lg\:pl-40 {
     padding-left: 10rem;
   }
 
   .lg\:pr-24 {
     padding-right: 6rem;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 
   .lg\:text-4xl {
@@ -1456,6 +1472,16 @@ h4, h3 {
 }
 
 @media (min-width: 1280px) {
+  .xl\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .xl\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
   .xl\:text-5xl {
     font-size: 3rem;
     line-height: 1;

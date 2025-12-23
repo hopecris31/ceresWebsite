@@ -7,12 +7,12 @@
 
 /* Force headings to use custom fonts and disable ligatures */
 h1, h2, h3, h4, h5, h6 {
-    font-family: inherit !important;
+    font-family: inherit;
     font-variant-ligatures: none !important;
 }
 
 .font-playfair-display-sc-regular {
-    font-family: 'Playfair Display SC', serif !important;
+    font-family: 'Playfair Display SC', serif;
     font-variant-ligatures: none !important;
 }
 

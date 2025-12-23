@@ -12,10 +12,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Myeongjo&family=Urbanist:ital,wght@0,100..900;1,100..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- GSAP Core -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/gsap.min.js"></script>
+    <!-- ScrollTrigger Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.min.js"></script>
+
     <script src="/js/main.js" defer></script>
 
     <style>
@@ -38,83 +41,45 @@
             scroll-snap-align: start;
             flex-shrink: 0;
         }
+
+        /* Hide words until animation */
+        .word {
+            display: inline-block;
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 </head>
 <body class="bg-gray-800 text-white overflow-x-hidden">
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (hamburger && mobileMenu) {
-            hamburger.addEventListener('click', () => {
-                mobileMenu.classList.toggle('show');
-                // Optional: toggle hamburger icon to X
-                hamburger.textContent = mobileMenu.classList.contains('show') ? '✕' : '☰';
-            });
-
-            // Close menu when clicking a link
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('show');
-                    hamburger.textContent = '☰';
-                });
-            });
-        }
-
-        // Close menu on resize to desktop
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                mobileMenu.classList.remove('show');
-                hamburger.textContent = '☰';
-            }
-        });
-    });
-</script>
 
 <!-- Floating Navbar -->
 <nav class="navbar transition-all duration-500 ease-in-out z-50 fixed top-0 left-0 right-0">
-    <!-- Logo -->
     <div class="logo-wrapper flex items-center">
         <a href="/" class="flex items-center">
-            <img src="/images/ceresWhitescale.png"
-                 alt="Ceres Logo"
-                 class="logo transition-all duration-500 ease-in-out white-svg">
+            <img src="/images/ceresWhitescale.png" alt="Ceres Logo" class="logo transition-all duration-500 ease-in-out white-svg">
         </a>
     </div>
-
-    <!-- Hamburger Button (visible only on mobile) -->
-    <button class="hamburger md:hidden text-white text-3xl focus:outline-none">
-        ☰
-    </button>
-
-    <!-- Desktop Menu (hidden on mobile) -->
+    <button class="hamburger md:hidden text-white text-3xl focus:outline-none">☰</button>
     <div class="menu-wrapper hidden md:flex space-x-6 pr-36">
-        <a href="/about"      class="nav-item">ABOUT</a>
+        <a href="/about" class="nav-item">ABOUT</a>
         <a href="/properties" class="nav-item">PROPERTIES</a>
-        <a href="/news"       class="nav-item">NEWS</a>
-        <a href="/gallery"    class="nav-item">GALLERY</a>
-        <a href="/contact"    class="nav-item">CONTACT</a>
+        <a href="/news" class="nav-item">NEWS</a>
+        <a href="/gallery" class="nav-item">GALLERY</a>
+        <a href="/contact" class="nav-item">CONTACT</a>
     </div>
-
-    <!-- Mobile Menu (hidden by default, toggled by hamburger) -->
     <div id="mobile-menu" class="hidden fixed top-24 left-0 right-0 bg-black/95 backdrop-blur-md py-6 px-8 md:hidden z-40">
         <div class="flex flex-col space-y-6 text-center">
-            <a href="/about"      class="nav-item text-2xl">ABOUT</a>
+            <a href="/about" class="nav-item text-2xl">ABOUT</a>
             <a href="/properties" class="nav-item text-2xl">PROPERTIES</a>
-            <a href="/news"       class="nav-item text-2xl">NEWS</a>
-            <a href="/gallery"    class="nav-item text-2xl">GALLERY</a>
-            <a href="/contact"    class="nav-item text-2xl">CONTACT</a>
+            <a href="/news" class="nav-item text-2xl">NEWS</a>
+            <a href="/gallery" class="nav-item text-2xl">GALLERY</a>
+            <a href="/contact" class="nav-item text-2xl">CONTACT</a>
         </div>
     </div>
 </nav>
 
-<!-- Scroll-Snap Container -->
 <main class="snap-container scroll-snap-slow">
-
-    <!-- SECTION 1: Image Slider -->
     <section class="snap-section relative h-screen w-full overflow-hidden">
-        <!-- Slides -->
         <div class="slide active">
             <img src="/images/westfield.png" class="absolute inset-0 w-full h-full object-cover" alt="Westfield">
         </div>
@@ -130,21 +95,15 @@
         <div class="slide">
             <img src="/images/avon.png" class="absolute inset-0 w-full h-full object-cover" alt="Avon">
         </div>
-
-        <!-- Dark overlay -->
         <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
-
         <div class="absolute inset-0 flex flex-col justify-center z-10 pointer-events-none">
             <div class="pl-24 md:pl-32 lg:pl-40 pr-8 md:pr-16 lg:pr-24 mx-auto">
-                <!-- Top line -->
                 <h4 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-white/95 font-light leading-tight font-playfair-display-sc-regular text-left">
                     Rooted in Excellence.
                 </h4>
                 <h4 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-white/95 font-light leading-tight mb-6 md:mb-10 font-playfair-display-sc-regular text-left">
                     Refined in Every Detail.
                 </h4>
-
-                <!-- Bottom line -->
                 <h3 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular text-left">
                     HOSPITALITY REDEFINED.
                 </h3>
@@ -153,17 +112,22 @@
     </section>
 
     <!-- SECTION 2: Content -->
-    <section class="snap-section flex items-center justify-center bg-gray-900 h-screen px-4 sm:px-6 md:px-8 lg:px-12">
+    <section class="snap-section flex items-center justify-center bg-gray-900 h-screen px-4 sm:px-6 md:px-8 lg:px-12" id="section-2">
         <div class="w-full max-w-screen-2xl text-center">
             <h4 class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 font-playfair-display-sc-regular tracking-wide leading-tight">
-                Building  |  Development  |  Management
+                <span class="word">Building</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <span class="word">Development</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <span class="word">Management</span>
             </h4>
-            <p class="text-lg md:text-xl text-gray-300 leading-relaxed font-playfair-display-sc-regular">
-                An award winning hotel ownership, development, and management company.
+            <br/>
+            <br/>
+            <p class="text-xl md:text-1xl lg:text-2xl xl:text-3xl font-light mb-6 tracking-wide leading-tight px-8 md:px-12 lg:px-16 xl:px-20"
+               style="font-family: 'Public Sans', sans-serif;">
+                At the core of our value proposition is our guest. We are grateful for each opportunity to serve those who choose to stay with us.
+                Above all else, we strive to provide exceptional service and a personalized experience to every guest during every stay.
             </p>
         </div>
     </section>
-
 </main>
 
 <!-- Slider & Scroll Logic -->
