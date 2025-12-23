@@ -36,9 +36,11 @@
   --transition-medium: 0.5s ease;
   --transition-slow: 1s ease-in-out;
   /* Animation */
-  --word-animation-duration: 1.2s;
+  --word-animation-duration: 2.0s;
+  /* How long each word takes to drop */
   --word-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
-  --word-stagger-delay: 0.4s;
+  --word-stagger-delay: 0.8s;
+  /* Time between each word */
   /* Spacing */
   --navbar-padding: 2rem 6rem;
   --navbar-padding-scrolled: 1rem 4rem;
@@ -211,16 +213,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-subtitle {
   font-size: clamp(1.875rem, 5vw, 3.75rem);
-  /* 30px → 60px */
   font-weight: 300;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: 0.05em;
-  line-height: 1.25;
+  line-height: 1;
+  /* Reduce from 1.25 - tightens space between lines */
+  margin: 0;
+  /* Remove any margin */
+  padding: 0;
+  /* Remove any padding */
 }
 
 .hero-subtitle:last-of-type {
-  margin-bottom: 1.5rem;
-  /* Change to 2.5rem for more space */
+  margin-bottom: 0.5rem;
+  /* Reduce from 1.5rem - less space before title */
 }
 
 .hero-title {
@@ -288,9 +294,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Public Sans', sans-serif;
   font-size: clamp(1.125rem, 2vw, 1.875rem);
   font-weight: 300;
-  line-height: 1.8;
+  line-height: 1;
   letter-spacing: 0.025em;
-  padding: 0 2rem;
+  /*padding: 0 2rem;*/
   max-width: 1000px;
   margin: 0 auto;
   color: var(--color-white);
@@ -406,5 +412,11 @@ h1, h2, h3, h4, h5, h6 {
     padding-left: 12rem;
     /* Matches logo on desktop */
     padding-right: 6rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
   }
 }

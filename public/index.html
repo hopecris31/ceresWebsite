@@ -95,6 +95,97 @@
 
 </main>
 
+<!-- Footer - Add this at the bottom of every page -->
+<footer class="bg-gray-950 text-gray-300 py-16 px-6 md:px-12 lg:px-24">
+    <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+
+        <!-- Company Name & Tagline -->
+        <div class="md:col-span-1">
+            <h3 class="text-3xl md:text-4xl font-bold text-white font-playfair-display-sc-regular mb-4">
+                Ceres Enterprises
+            </h3>
+            <p class="text-lg leading-relaxed font-light" style="font-family: 'Public Sans', sans-serif;">
+                Rooted in Excellence.<br>
+                Refined in Every Detail.
+            </p>
+        </div>
+
+        <!-- Contact Information -->
+        <div>
+            <h4 class="text-xl font-bold text-white mb-6 font-playfair-display-sc-regular">
+                Contact
+            </h4>
+            <ul class="space-y-4 text-base leading-relaxed" style="font-family: 'Public Sans', sans-serif;">
+                <li class="flex items-start">
+                    <span class="mr-3 text-[#eae5c8]">↳</span>
+                    <span>123 Hospitality Lane<br>Indianapolis, IN 46204</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="mr-3 text-[#eae5c8]">☎</span>
+                    <a href="tel:+13175551234" class="hover:text-[#eae5c8] transition-colors">(317) 555-1234</a>
+                </li>
+                <li class="flex items-center">
+                    <span class="mr-3 text-[#eae5c8]">✉</span>
+                    <a href="mailto:info@ceresenterprises.com" class="hover:text-[#eae5c8] transition-colors">
+                        info@ceresenterprises.com
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+            <h4 class="text-xl font-bold text-white mb-6 font-playfair-display-sc-regular">
+                Explore
+            </h4>
+            <ul class="space-y-3 text-base" style="font-family: 'Public Sans', sans-serif;">
+                <li><a href="/about" class="hover:text-[#eae5c8] transition-colors">About</a></li>
+                <li><a href="/properties" class="hover:text-[#eae5c8] transition-colors">Properties</a></li>
+                <li><a href="/news" class="hover:text-[#eae5c8] transition-colors">News</a></li>
+                <li><a href="/gallery" class="hover:text-[#eae5c8] transition-colors">Gallery</a></li>
+                <li><a href="/contact" class="hover:text-[#eae5c8] transition-colors">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Social & Professional Links -->
+        <div>
+            <h4 class="text-xl font-bold text-white mb-6 font-playfair-display-sc-regular">
+                Connect
+            </h4>
+            <div class="flex space-x-6 mb-8">
+                <a href="https://linkedin.com/company/ceres-enterprises" target="_blank" aria-label="LinkedIn" class="text-2xl hover:text-[#eae5c8] transition-colors">
+                    in
+                </a>
+                <a href="https://instagram.com/ceresenterprises" target="_blank" aria-label="Instagram" class="text-2xl hover:text-[#eae5c8] transition-colors">
+                    ↗
+                </a>
+                <a href="https://facebook.com/ceresenterprises" target="_blank" aria-label="Facebook" class="text-2xl hover:text-[#eae5c8] transition-colors">
+                    f
+                </a>
+                <a href="https://twitter.com/ceres_ent" target="_blank" aria-label="Twitter/X" class="text-2xl hover:text-[#eae5c8] transition-colors">
+                    x
+                </a>
+            </div>
+            <p class="text-sm text-gray-500" style="font-family: 'Public Sans', sans-serif;">
+                © <span id="year"></span> Ceres Enterprises. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <!-- Optional: Small bottom bar for legal links if needed later -->
+    <!--
+    <div class="max-w-screen-2xl mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+        <a href="/privacy" class="hover:text-[#eae5c8] mx-4">Privacy Policy</a>
+        <a href="/terms" class="hover:text-[#eae5c8] mx-4">Terms of Service</a>
+    </div>
+    -->
+</footer>
+
+<script>
+    // Auto-update current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 <!-- JavaScript -->
 <script src="/js/main.js"></script>
 
