@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind CSS (compiled) -->
     <link href="/css/output.css" rel="stylesheet">
-    <!-- Custom Styles -->
+    <!-- Custom Styles (needed for navbar) -->
     <link href="/css/styles.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         /* ---------- GRID MOSAIC ---------- */
+        /* Using !important to ensure these aren't overridden */
         .mosaic-grid {
-            display: grid;
-            gap: 24px;
-            grid-template-columns: repeat(6, 1fr);
-            grid-auto-rows: 120px;
-            align-items: stretch;
-            justify-items: stretch;
+            display: grid !important;
+            gap: 24px !important;
+            grid-template-columns: repeat(6, 1fr) !important;
+            grid-auto-rows: 120px !important;
+            align-items: stretch !important;
+            justify-items: stretch !important;
         }
 
         .mosaic-item {
@@ -48,16 +50,16 @@
         /* ---------- RESPONSIVE ---------- */
         @media (max-width: 1023px) {
             .mosaic-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: 160px;
+                grid-template-columns: repeat(3, 1fr) !important;
+                grid-auto-rows: 160px !important;
             }
             .mosaic-item { grid-column: auto !important; grid-row: auto !important; }
         }
 
         @media (max-width: 639px) {
             .mosaic-grid {
-                grid-template-columns: 1fr;
-                grid-auto-rows: auto;
+                grid-template-columns: 1fr !important;
+                grid-auto-rows: auto !important;
             }
             .mosaic-item, .mosaic-item img { height: auto; }
         }
@@ -81,6 +83,24 @@
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
+
+            // Initialize navbar scroll behavior AFTER navbar is loaded
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY <= 80) {
+                    navbar.classList.remove('scrolled');
+                } else {
+                    navbar.classList.add('scrolled');
+                }
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
         });
 </script>
 
@@ -189,26 +209,23 @@
             } else if (style === 2) {
                 // Style C (inverse of A)
                 if (i + 2 >= items.length) break;
-                items[i].style.gridColumn = "3 / span 4"; // hero right
+                items[i].style.gridColumn = "3 / span 4";
                 items[i].style.gridRow = `${currentRow} / span 4`;
-                items[i+1].style.gridColumn = "1 / span 2"; // small top left
+                items[i+1].style.gridColumn = "1 / span 2";
                 items[i+1].style.gridRow = `${currentRow} / span 2`;
-                items[i+2].style.gridColumn = "1 / span 2"; // small bottom left
+                items[i+2].style.gridColumn = "1 / span 2";
                 items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
                 i += 3;
             } else if (style === 3) {
                 // Style D (inverse of B)
                 if (i + 3 >= items.length) break;
-                items[i].style.gridColumn = "1 / span 2"; // tall left
+                items[i].style.gridColumn = "1 / span 2";
                 items[i].style.gridRow = `${currentRow} / span 4`;
-
-                items[i+1].style.gridColumn = "3 / span 4"; // wide top right
+                items[i+1].style.gridColumn = "3 / span 4";
                 items[i+1].style.gridRow = `${currentRow} / span 2`;
-
-                items[i+2].style.gridColumn = "3 / span 2"; // small bottom right top-left
+                items[i+2].style.gridColumn = "3 / span 2";
                 items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
-
-                items[i+3].style.gridColumn = "5 / span 2"; // small bottom right top-right
+                items[i+3].style.gridColumn = "5 / span 2";
                 items[i+3].style.gridRow = `${currentRow + 2} / span 2`;
                 i += 4;
             }
@@ -216,8 +233,6 @@
             currentRow += 4;
             rowCount++;
         }
-
-
 
         // === Lightbox ===
         const lightbox = document.getElementById('lightbox');
@@ -268,27 +283,6 @@
             if (e.key === 'ArrowRight') nextBtn.click();
         });
         lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-    });
-
-        // Keep navbar perfectly consistent across pages
-        document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
-
-        // Force correct state immediately on page load
-        if (window.scrollY <= 80) {
-            navbar.classList.remove('scrolled');
-        } else {
-            navbar.classList.add('scrolled');
-        }
-
-        // Then listen for scroll as usual
-        window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-        });
     });
 </script>
 
