@@ -23,3 +23,25 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Navbar scroll behavior for regular pages (non-snap-container)
+    setTimeout(function() {
+        const navbar = document.querySelector('.navbar');
+        const scrollContainer = document.getElementById('scroll-container');
+
+        // Only run if there's no snap-container (index page handles its own scroll)
+        if (navbar && !scrollContainer) {
+            function updateNavbar() {
+                if (window.scrollY > 80) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            updateNavbar();
+            window.addEventListener('scroll', updateNavbar);
+        }
+    }, 10);
+</script>
