@@ -81,12 +81,12 @@
             }
         }
 
-        /* Cards Grid */
+        /* Cards Grid - Removed top padding completely */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            padding: 4rem 2rem;
+            padding: 0 2rem 4rem 2rem;  /* Top padding set to 0 */
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -94,12 +94,14 @@
         /* Flip Card Container */
         .flip-card {
             perspective: 1000px;
-            height: 320px;
+            height: 380px;
             cursor: pointer;
+            position: relative;
         }
 
         .flip-card-inner {
-            position: relative;
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -113,6 +115,7 @@
         .flip-card-front,
         .flip-card-back {
             position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
@@ -180,11 +183,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.4s ease;
-        }
-
-        .flip-card:hover .card-content {
-            transform: translateY(-10px);
+            text-align: center;
         }
 
         .card-icon {
@@ -235,21 +234,24 @@
         .flip-card-back {
             background: linear-gradient(145deg, #eae5c8 0%, #d4cfb5 100%);
             transform: rotateY(180deg);
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             overflow-y: auto;
         }
 
         .card-back-title {
             font-family: 'Playfair Display SC', serif;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
+            font-weight: 700;
             color: #1a1a2e;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
+            text-align: center;
+            margin: 0 0 1rem 0;
             padding-bottom: 0.75rem;
             border-bottom: 1px solid rgba(26, 26, 46, 0.2);
+            line-height: 1.2;
         }
 
         .card-description {
@@ -258,6 +260,7 @@
             line-height: 1.7;
             color: #2d2d44;
             text-align: left;
+            margin: 0;
         }
 
         /* Scroll Animation */
@@ -330,61 +333,22 @@
         @media (max-width: 768px) {
             .services-grid {
                 grid-template-columns: 1fr;
-                padding: 2rem 1rem;
+                padding: 0 1rem 4rem 1rem;  /* Top padding 0 on mobile too */
             }
 
             .flip-card {
-                height: 280px;
+                height: 340px;
             }
 
             .card-description {
                 font-size: 0.85rem;
             }
         }
-
-        /* Floating particles background */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(234, 229, 200, 0.3);
-            border-radius: 50%;
-            animation: float 15s infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
-
 <!-- NAVBAR -->
 <div id="navbar-placeholder"></div>
-
 <script>
     fetch('/navbar.html')
         .then(response => response.text())
@@ -393,16 +357,16 @@
         });
 </script>
 
-<!-- HERO SECTION -->
-<section class="services-hero">
-    <div class="particles" id="particles"></div>
-    <h1 class="services-hero-title font-playfair-display-sc-regular text-white">Services</h1>
-    <p class="services-hero-subtitle">Excellence in Every Detail</p>
+<!-- HEADER - Kept exactly as you had it -->
+<header class="pt-28 pb-0 md:pt-36 md:pb-0 text-center">
+    <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular">
+        SERVICES
+    </h3>
     <div class="hero-line"></div>
-</section>
+</header>
 
-<!-- SERVICES GRID -->
-<section class="bg-gray-900 py-8">
+<!-- SERVICES GRID - No extra section padding -->
+<section class="bg-gray-900">
     <div class="services-grid">
 
         <!-- Card 1: Accounting -->
@@ -422,7 +386,7 @@
                 <div class="flip-card-back">
                     <h4 class="card-back-title">Accounting</h4>
                     <p class="card-description">
-                        Ceres Enterprises has developed a highly detailed and user friendly accounting system to track financial progress of the hotels to compare performances of individual line items through percentages or costs per occupied room. Profit and loss statements are useful tools for the property General Managers to compare performance to last year and budget as well as to flag areas where improvement is required. Each General Manager prepares a month end report which quickly outlines variances. We look at several metrics including top line revenue, gross operating profit, food costs, overall labor expense, outstanding accounts receivable, market share results and overall guest satisfaction.
+                        Ceres Enterprises has developed a highly detailed, user-friendly accounting system to track hotel financial progress, enabling comparisons of individual line items via percentages or costs per occupied room. Profit and loss statements help General Managers compare performance against last year and budget while identifying areas needing improvement. Each General Manager prepares a month-end report outlining key variances. We monitor several metrics, including top-line revenue, gross operating profit, food costs, overall labor expense, outstanding accounts receivable, market share results, and overall guest satisfaction.
                     </p>
                 </div>
             </div>
@@ -491,7 +455,7 @@
                 <div class="flip-card-back">
                     <h4 class="card-back-title">Asset Management</h4>
                     <p class="card-description">
-                        Ceres Enterprises has developed unique and cost effective programs for hotel renovations and construction. The core of asset management stems from a very detailed preventative maintenance program. Each guest room is inspected and preventative maintenance is performed quarterly, including plumbing, HVAC, paint touch up and any additional items requiring repair. Capital requests are submitted by property leaders each year to the Director of Asset Management, ranked by importance, and submitted to the Director of Finance and President for approval.
+                        Ceres Enterprises has developed unique and cost-effective programs for hotel renovations and construction. The core of asset management stems from a very detailed preventative maintenance program. Each guest room is inspected and preventative maintenance is performed quarterly, including plumbing, HVAC, paint touch up and any additional items requiring repair. Capital requests are submitted by property leaders each year to the Director of Asset Management, ranked by importance, and submitted to the Director of Finance and President for approval.
                     </p>
                 </div>
             </div>
@@ -557,7 +521,6 @@
 
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
-
 <script>
     fetch('/footer.html')
         .then(response => response.text())
@@ -568,21 +531,6 @@
 
 <!-- SCRIPTS -->
 <script>
-    // Create floating particles
-    function createParticles() {
-        const container = document.getElementById('particles');
-        const particleCount = 20;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            container.appendChild(particle);
-        }
-    }
-
     // Intersection Observer for scroll animations
     function initScrollAnimations() {
         const cards = document.querySelectorAll('.flip-card');
@@ -603,10 +551,8 @@
 
     // Initialize on DOM load
     document.addEventListener('DOMContentLoaded', () => {
-        createParticles();
         initScrollAnimations();
     });
 </script>
-
 </body>
 </html>

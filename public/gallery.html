@@ -71,6 +71,23 @@
             padding: 12px 18px;
             border-radius: 0;
         }
+
+        /* Hero Line + Animation (now fixed) */
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white overflow-x-hidden">
@@ -105,16 +122,17 @@
 </script>
 
 <!-- HEADER -->
-<header class="pt-28 pb-16 md:pt-36 md:pb-20 text-center">
+<header class="pt-28 pb-2 md:pt-36 md:pb-4 text-center">
     <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular">
         GALLERY
     </h3>
+    <div class="hero-line"></div>
 </header>
 
 <!-- MOSAIC GRID -->
 <section class="container mx-auto px-16 pb-20">
     <div class="mosaic-grid">
-        <!-- 42 IMAGES -->
+        <!-- 42 IMAGES (unchanged - keeping your full list) -->
         <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room_2.png" alt="Grand Lobby" data-caption="Grand Lobby Entrance"></div>
         <div class="mosaic-item"><img src="/images/gallery_images/avon_firepit.png" alt="Bar" data-caption="Avon Bar & Lounge"></div>
         <div class="mosaic-item"><img src="/images/gallery_images/centuar_kitchen.png" alt="Bathroom" data-caption="Luxury Bathroom"></div>
@@ -185,7 +203,6 @@
             const style = rowCount % 4;
 
             if (style === 0) {
-                // Style A
                 if (i + 2 >= items.length) break;
                 items[i].style.gridColumn = "1 / span 4";
                 items[i].style.gridRow = `${currentRow} / span 4`;
@@ -195,7 +212,6 @@
                 items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
                 i += 3;
             } else if (style === 1) {
-                // Style B
                 if (i + 3 >= items.length) break;
                 items[i].style.gridColumn = "1 / span 2";
                 items[i].style.gridRow = `${currentRow} / span 2`;
@@ -207,7 +223,6 @@
                 items[i+3].style.gridRow = `${currentRow} / span 4`;
                 i += 4;
             } else if (style === 2) {
-                // Style C (inverse of A)
                 if (i + 2 >= items.length) break;
                 items[i].style.gridColumn = "3 / span 4";
                 items[i].style.gridRow = `${currentRow} / span 4`;
@@ -217,7 +232,6 @@
                 items[i+2].style.gridRow = `${currentRow + 2} / span 2`;
                 i += 3;
             } else if (style === 3) {
-                // Style D (inverse of B)
                 if (i + 3 >= items.length) break;
                 items[i].style.gridColumn = "1 / span 2";
                 items[i].style.gridRow = `${currentRow} / span 4`;
