@@ -85,7 +85,7 @@
         <!-- Bottom Section: Legal -->
         <div class="footer-bottom">
             <p class="footer-copyright">
-                &copy; <span id="footer-year"></span> Ceres Enterprises. All rights reserved.
+                &copy; <span id="footer-year">2025</span> Ceres Enterprises. All rights reserved.
             </p>
             <div class="footer-legal">
                 <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
@@ -100,6 +100,14 @@
 </footer>
 
 <script>
-    // Auto-update footer year
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    // Update year immediately after footer is inserted
+    (function updateFooterYear() {
+        const yearEl = document.getElementById('footer-year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        } else {
+            // If element not yet available, retry once after a tiny delay
+            setTimeout(updateFooterYear, 50);
+        }
+    })();
 </script>
