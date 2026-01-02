@@ -238,6 +238,10 @@
 
         .form-group.full-width {
             grid-column: 1 / -1;
+        }
+
+        .form-group.last {
+            grid-column: 1 / -1;
             margin-bottom: 2.5rem;
         }
 
@@ -291,6 +295,15 @@
             border-color: #eae5c8;
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 3px rgba(234, 229, 200, 0.1);
+        }
+
+        /* Error state for required fields */
+        .form-input.error,
+        .form-select.error,
+        .form-textarea.error {
+            border-color: #e57373;
+            background: rgba(229, 115, 115, 0.08);
+            box-shadow: 0 0 0 3px rgba(229, 115, 115, 0.1);
         }
 
         .form-select {
@@ -352,6 +365,36 @@
             transform: translateX(4px);
         }
 
+        /* Error Banner */
+        .error-banner {
+            display: none;
+            padding: 1rem 1.25rem;
+            background: rgba(229, 115, 115, 0.15);
+            border: 1px solid rgba(229, 115, 115, 0.4);
+            margin-bottom: 1.5rem;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .error-banner.show {
+            display: flex;
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        .error-banner svg {
+            width: 20px;
+            height: 20px;
+            color: #e57373;
+            flex-shrink: 0;
+        }
+
+        .error-banner p {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.95rem;
+            color: #e57373;
+            margin: 0;
+        }
+
         /* Success Message */
         .success-message {
             display: none;
@@ -364,6 +407,7 @@
         .success-message.show {
             display: block;
             animation: fadeInUp 0.5s ease forwards;
+            margin-bottom: 3rem;
         }
 
         .success-message p {
@@ -461,7 +505,7 @@
             <div class="info-block">
                 <p class="info-label">Email</p>
                 <p class="info-value">
-                    <a href="/cdn-cgi/l/email-protection#dfb6b1b9b09fbcbaadbaacb0b7f1bcb0b2"><span class="__cf_email__" data-cfemail="a9c0c7cfc6e9caccdbccdac6c187cac6c4">info@ceresoh.com</span></a>
+                    <a href="mailto:info@ceresoh.com">info@ceresoh.com</a>
                 </p>
             </div>
 
@@ -494,7 +538,17 @@
             <h2 class="form-title">Send a Message</h2>
             <p class="form-subtitle">Fields marked with <span style="color: #eae5c8;">*</span> are required</p>
 
-            <form id="contact-form" action="#" method="POST">
+            <!-- Error Banner -->
+            <div id="error-banner" class="error-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p>Please fill out all required fields</p>
+            </div>
+
+            <form id="contact-form" action="#" method="POST" novalidate>
                 <div class="form-grid">
 
                     <!-- First Name (Required) -->
@@ -502,7 +556,7 @@
                         <label class="form-label" for="firstName">
                             First Name <span class="required">*</span>
                         </label>
-                        <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" required>
+                        <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" data-required="true">
                     </div>
 
                     <!-- Last Name (Required) -->
@@ -510,7 +564,7 @@
                         <label class="form-label" for="lastName">
                             Last Name <span class="required">*</span>
                         </label>
-                        <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Doe" required>
+                        <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Doe" data-required="true">
                     </div>
 
                     <!-- Company (Required) -->
@@ -518,7 +572,7 @@
                         <label class="form-label" for="company">
                             Company <span class="required">*</span>
                         </label>
-                        <input type="text" id="company" name="company" class="form-input" placeholder="Your Company" required>
+                        <input type="text" id="company" name="company" class="form-input" placeholder="Your Company" data-required="true">
                     </div>
 
                     <!-- Email (Required) -->
@@ -526,7 +580,7 @@
                         <label class="form-label" for="email">
                             Email Address <span class="required">*</span>
                         </label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="john@company.com" required>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="john@company.com" data-required="true">
                     </div>
 
                     <!-- Phone (Optional) -->
@@ -562,16 +616,16 @@
                         <input type="text" id="subject" name="subject" class="form-input" placeholder="What is this regarding?">
                     </div>
 
-                    <!-- Message (Optional) -->
+                    <!-- Message (Required) -->
                     <div class="form-group full-width">
                         <label class="form-label" for="message">
                             Message <span class="required">*</span>
                         </label>
-                        <textarea id="message" name="message" class="form-textarea" placeholder="Tell us more about your inquiry..."></textarea>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Tell us more about your inquiry..." data-required="true"></textarea>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="form-group full-width">
+                    <div class="form-group last">
                         <button type="submit" class="submit-btn">
                             Send Message
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -607,7 +661,7 @@
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
     fetch('/footer.html')
         .then(response => response.text())
         .then(data => {
@@ -617,11 +671,57 @@
 
 <!-- SCRIPTS -->
 <script>
+    const form = document.getElementById('contact-form');
+    const errorBanner = document.getElementById('error-banner');
+    const successMessage = document.getElementById('success-message');
+
+    // Get all required fields
+    const requiredFields = form.querySelectorAll('[data-required="true"]');
+
+    // Remove error state when user starts typing
+    requiredFields.forEach(field => {
+        field.addEventListener('input', function() {
+            this.classList.remove('error');
+            // Hide banner if all errors are cleared
+            const hasErrors = form.querySelectorAll('.error').length > 0;
+            if (!hasErrors) {
+                errorBanner.classList.remove('show');
+            }
+        });
+    });
+
     // Form submission handler
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Get form data
+        // Clear previous error states
+        requiredFields.forEach(field => field.classList.remove('error'));
+        errorBanner.classList.remove('show');
+        successMessage.classList.remove('show');
+
+        // Check for empty required fields
+        let hasErrors = false;
+        let firstErrorField = null;
+
+        requiredFields.forEach(field => {
+            const value = field.value.trim();
+            if (!value) {
+                field.classList.add('error');
+                hasErrors = true;
+                if (!firstErrorField) {
+                    firstErrorField = field;
+                }
+            }
+        });
+
+        // If there are errors, show banner and scroll to it
+        if (hasErrors) {
+            errorBanner.classList.add('show');
+            errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        // If validation passes, process form
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
 
@@ -629,22 +729,86 @@
         console.log('Form submitted:', data);
 
         // Show success message
-        document.getElementById('success-message').classList.add('show');
+        successMessage.classList.add('show');
 
         // Reset form
         this.reset();
 
         // Scroll to success message
-        document.getElementById('success-message').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        // Hide success message after 5 seconds
+        // Hide success message after 20 seconds
         setTimeout(() => {
-            document.getElementById('success-message').classList.remove('show');
-        }, 5000);
+            successMessage.classList.remove('show');
+        }, 20000);
     });
 
     // Phone number formatting
     document.getElementById('phone').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 6) {
-            value = '(' + value.substring(0, 3) + ') ' + value.subst
+        const input = e.target;
+        const selectionStart = input.selectionStart;
+        const previousValue = input.value;
+
+        // Get only digits
+        let digits = previousValue.replace(/\D/g, '');
+
+        // Format based on number of digits
+        let formatted = '';
+        if (digits.length > 0) {
+            if (digits.length <= 3) {
+                formatted = '(' + digits;
+            } else if (digits.length <= 6) {
+                formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3);
+            } else {
+                formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6, 10);
+            }
+        }
+
+        input.value = formatted;
+    });
+
+    // Handle backspace to skip over formatting characters
+    document.getElementById('phone').addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+            const input = e.target;
+            const cursorPos = input.selectionStart;
+            const value = input.value;
+
+            // Check if cursor is right after a formatting character
+            // Positions where formatting chars end: after "(" is pos 1, after ") " is pos 5, after "-" is pos 10
+            if (cursorPos === 5 || cursorPos === 1 || cursorPos === 10) {
+                e.preventDefault();
+                // Remove the digit before the formatting character(s)
+                let digits = value.replace(/\D/g, '');
+
+                if (cursorPos === 10 && digits.length >= 6) {
+                    // Remove the 6th digit (before the hyphen)
+                    digits = digits.substring(0, 5) + digits.substring(6);
+                } else if (cursorPos === 5 && digits.length >= 3) {
+                    // Remove the 3rd digit (before ") ")
+                    digits = digits.substring(0, 2) + digits.substring(3);
+                } else if (cursorPos === 1 && digits.length >= 1) {
+                    // Remove the 1st digit (after "(")
+                    digits = digits.substring(1);
+                }
+
+                // Reformat
+                let formatted = '';
+                if (digits.length > 0) {
+                    if (digits.length <= 3) {
+                        formatted = '(' + digits;
+                    } else if (digits.length <= 6) {
+                        formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3);
+                    } else {
+                        formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6, 10);
+                    }
+                }
+
+                input.value = formatted;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
