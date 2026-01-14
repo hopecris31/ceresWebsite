@@ -29,9 +29,18 @@
             border-radius: 0;
             box-shadow: 0 6px 18px rgba(0,0,0,0.45);
             cursor: pointer;
-            transition: transform .25s ease, box-shadow .25s ease;
+            transition: transform .25s ease, box-shadow .25s ease, opacity 0.6s ease;
             background: #111;
+            /* Initial state for animation */
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
         }
+
+        .mosaic-item.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
         .mosaic-item img {
             width: 100%;
             height: 100%;
@@ -247,6 +256,57 @@
             currentRow += 4;
             rowCount++;
         }
+
+        // === Staggered Loading Animation ===
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.1
+        };
+
+        const loadedItems = new Set();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !loadedItems.has(entry.target)) {
+                    loadedItems.add(entry.target);
+
+                    // Find the index of this item among all items
+                    const index = Array.from(items).indexOf(entry.target);
+
+                    // Get all currently intersecting items that haven't been loaded
+                    const visibleUnloaded = Array.from(items).filter((item, i) => {
+                        const rect = item.getBoundingClientRect();
+                        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                        return isVisible && !item.classList.contains('loaded') && !loadedItems.has(item);
+                    });
+
+                    // Stagger the animation based on position in visible group
+                    const staggerIndex = visibleUnloaded.indexOf(entry.target);
+                    const delay = Math.max(0, staggerIndex) * 80; // 80ms stagger between each tile
+
+                    setTimeout(() => {
+                        entry.target.classList.add('loaded');
+                    }, delay);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all mosaic items
+        items.forEach(item => observer.observe(item));
+
+        // Initial load animation for items already in viewport
+        setTimeout(() => {
+            items.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    setTimeout(() => {
+                        item.classList.add('loaded');
+                        loadedItems.add(item);
+                    }, index * 80); // Stagger initial visible items
+                }
+            });
+        }, 100);
 
         // === Lightbox ===
         const lightbox = document.getElementById('lightbox');
