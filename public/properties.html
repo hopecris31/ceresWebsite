@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ceres Enterprises - Home</title>
+    <title>Ceres Enterprises - Properties</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="/css/output.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,61 +11,779 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="/js/main.js" defer></script>
+
+    <style>
+        :root {
+            --gold: #d4af64;
+            --gold-dim: rgba(212, 175, 100, 0.35);
+            --gold-faint: rgba(212, 175, 100, 0.08);
+            --dark-base: #0e1420;
+            --dark-mid: #111827;
+            --dark-surface: #161f2e;
+            --text-primary: #ffffff;
+            --text-muted: rgba(255,255,255,0.55);
+            --text-subtle: rgba(255,255,255,0.35);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--dark-base);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding: 9rem 2rem 5rem;
+            text-align: center;
+            background: linear-gradient(180deg, #0a101a 0%, var(--dark-base) 100%);
+        }
+
+        .page-eyebrow {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: var(--text-primary);
+            margin: 0;
+            opacity: 0;
+            animation: fadeUp 0.9s ease forwards 0.4s;
+        }
+
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── FILTER BAR ── */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 4rem 2rem 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-faint);
+        }
+
+        /* ── PROPERTY CARDS ── */
+        .properties-list {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .property-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 520px;
+            margin-bottom: 2px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            position: relative;
+        }
+
+        .property-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .property-card.reverse {
+            direction: rtl;
+        }
+        .property-card.reverse > * {
+            direction: ltr;
+        }
+
+        /* Image pane */
+        .property-image-pane {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image-pane img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: brightness(0.88);
+        }
+
+        .property-card:hover .property-image-pane img {
+            transform: scale(1.04);
+        }
+
+        .property-image-pane::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10,16,26,0.25) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Brand badge over image */
+        .property-brand-badge {
+            position: absolute;
+            top: 1.75rem;
+            left: 1.75rem;
+            z-index: 2;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: rgba(10,16,26,0.75);
+            backdrop-filter: blur(6px);
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--gold-dim);
+        }
+
+        .property-card.reverse .property-brand-badge {
+            left: auto;
+            right: 1.75rem;
+        }
+
+        /* Property number */
+        .property-number {
+            position: absolute;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            z-index: 2;
+            font-family: 'Playfair Display SC', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.07);
+            line-height: 1;
+            user-select: none;
+        }
+
+        .property-card.reverse .property-number {
+            right: auto;
+            left: 1.75rem;
+        }
+
+        /* Info pane */
+        .property-info-pane {
+            background: var(--dark-surface);
+            padding: 3.5rem 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        /* Subtle corner accent */
+        .property-info-pane::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border-top: 1px solid var(--gold-dim);
+            border-left: 1px solid var(--gold-dim);
+        }
+
+        .property-card.reverse .property-info-pane::before {
+            left: auto; right: 0;
+            border-left: none;
+            border-right: 1px solid var(--gold-dim);
+        }
+
+        .property-info-pane::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 40px; height: 40px;
+            border-bottom: 1px solid var(--gold-dim);
+            border-right: 1px solid var(--gold-dim);
+        }
+
+        .property-card.reverse .property-info-pane::after {
+            right: auto; left: 0;
+            border-right: none;
+            border-left: 1px solid var(--gold-dim);
+        }
+
+        .property-location {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .property-name {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            line-height: 1.25;
+            margin-bottom: 1.75rem;
+        }
+
+        .property-divider {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .prop-rule {
+            height: 1px;
+            width: 36px;
+            background: var(--gold-dim);
+        }
+
+        .prop-dot {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        .property-staff {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 2.25rem;
+        }
+
+        .staff-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .staff-role {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+
+        .staff-name {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            letter-spacing: 0.02em;
+        }
+
+        .property-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            transition: gap 0.3s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .property-cta:hover {
+            gap: 1.25rem;
+        }
+
+        .property-cta::after {
+            content: '→';
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .property-cta:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Category tag (Hotel / Residential) */
+        .property-category-tag {
+            position: absolute;
+            bottom: 1.75rem;
+            left: 1.75rem;
+            z-index: 2;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            background: rgba(10,16,26,0.6);
+            backdrop-filter: blur(6px);
+            padding: 0.35rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .property-card.reverse .property-category-tag {
+            left: auto;
+            right: 1.75rem;
+        }
+
+        /* Ghost number moves up when tag present */
+        .property-number {
+            position: absolute;
+            bottom: 4.5rem;
+            right: 1.75rem;
+            z-index: 2;
+            font-family: 'Playfair Display SC', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.07);
+            line-height: 1;
+            user-select: none;
+        }
+        .section-divider {
+            max-width: 1400px;
+            margin: 5rem auto 3rem;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .section-divider-label {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        .section-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-dim), transparent);
+        }
+
+        /* Apartment card — full width variant */
+        .property-card.full-width {
+            grid-template-columns: 3fr 2fr;
+            direction: ltr;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .property-card,
+            .property-card.reverse,
+            .property-card.full-width {
+                grid-template-columns: 1fr;
+                direction: ltr;
+                min-height: auto;
+            }
+
+            .property-image-pane {
+                height: 280px;
+            }
+
+            .property-card.reverse .property-brand-badge {
+                left: 1.75rem;
+                right: auto;
+            }
+
+            .property-info-pane {
+                padding: 2.5rem 2rem;
+            }
+
+            .property-card.reverse .property-info-pane::before {
+                left: 0; right: auto;
+                border-left: 1px solid var(--gold-dim);
+                border-right: none;
+            }
+
+            .property-card.reverse .property-info-pane::after {
+                right: 0; left: auto;
+                border-right: 1px solid var(--gold-dim);
+                border-left: none;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-800 text-white">
+<body>
 
-<!-- ================== FLOATING NAVBAR ================== -->
+<!-- ================== NAVBAR ================== -->
 <div id="navbar-placeholder"></div>
-
 <script>
     fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
-        });
-</script>
 
-<!-- ================== FULL-SCREEN SLIDER ================== -->
-<section class="relative h-screen w-full overflow-hidden">
-    <!-- Hero Text (Centered) -->
-    <div class="absolute inset-0 flex items-center justify-center z-10">
-        <h1 class="text-6xl md:text-8xl font-bold text-white drop-shadow-2xl tracking-wide font-playfair-display-sc-regular">
-            PROPERTIES
-        </h1>
-    </div>
-</section>
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 80) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
 
-<script>
-    // Keep navbar perfectly consistent across pages
-    document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
-
-        // Force correct state immediately on page load
-        if (window.scrollY <= 80) {
-            navbar.classList.remove('scrolled');
-        } else {
-            navbar.classList.add('scrolled');
-        }
-
-        // Then listen for scroll as usual
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
+                });
             }
         });
-    });
 </script>
 
-<div id="footer-placeholder"></div>
+<!-- ================== PAGE HEADER ================== -->
+<header class="page-header">
+    <p class="page-eyebrow">Our Portfolio</p>
+    <h1 class="page-title font-playfair-display-sc-regular">PROPERTIES</h1>
+    <div class="hero-line"></div>
+</header>
 
+<!-- ================== FILTER BAR ================== -->
+<div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Properties</button>
+    <button class="filter-btn" data-filter="hotel">Hotels</button>
+    <button class="filter-btn" data-filter="residential">Residential</button>
+</div>
+
+<!-- ================== HOTELS ================== -->
+<main class="properties-list">
+
+    <!-- ── HOTELS DIVIDER ── -->
+    <div class="section-divider" id="hotels-divider">
+        <span class="section-divider-label">Hotels</span>
+        <div class="section-divider-line"></div>
+    </div>
+
+    <!-- 1: Wyndham Avon -->
+    <article class="property-card" data-category="hotel indiana">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Wyndham</span>
+            <img src="/images/avon.png" alt="Wyndham Avon">
+            <div class="property-number">01</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Avon, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Wyndham<br>Avon</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Dominique Dailey</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Trisha Mullaney</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 2: Hilton Garden Inn -->
+    <article class="property-card reverse" data-category="hotel ohio">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Hilton Garden Inn</span>
+            <img src="/images/hgi.png" alt="Hilton Garden Inn Cleveland Airport">
+            <div class="property-number">02</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Cleveland Airport, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Hilton Garden Inn<br>Cleveland Airport</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Jeremy Baumler</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Katie Boeckman</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 3: Wyndham Noblesville -->
+    <article class="property-card" data-category="hotel indiana">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Wyndham</span>
+            <img src="/images/noblesville.png" alt="Wyndham Noblesville">
+            <div class="property-number">03</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Noblesville, Indiana</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Wyndham<br>Noblesville</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Rico Vazquez</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Stephanie Rice</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 4: Residence Inn Troy -->
+    <article class="property-card reverse" data-category="hotel ohio">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Marriott · Residence Inn</span>
+            <img src="/images/troy.png" alt="Residence Inn Troy">
+            <div class="property-number">04</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Troy, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Residence Inn<br>Troy</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Gary Gruss</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Krista Bleichert</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 5: Fairfield Inn Troy -->
+    <article class="property-card" data-category="hotel ohio">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Marriott · Fairfield</span>
+            <img src="/images/fairfield.png" alt="Fairfield Inn & Suites Troy">
+            <div class="property-number">05</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Troy, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Fairfield Inn &amp; Suites<br>Troy</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Gary Gruss</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Krista Bleichert</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 6: Wyndham Westfield -->
+    <article class="property-card reverse" data-category="hotel indiana">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Wyndham</span>
+            <img src="/images/westfield.png" alt="Wyndham Westfield">
+            <div class="property-number">06</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Westfield, Indiana</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Wyndham<br>Westfield</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Jenny Voorhees</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Lindsay Molnar</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- 7: Orbit Hotel -->
+    <article class="property-card" data-category="hotel ohio">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Trademark by Wyndham</span>
+            <img src="/images/orbit.png" alt="Orbit Hotel at NASA Glenn">
+            <div class="property-number">07</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Fairview Park, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">Orbit Hotel<br>at NASA Glenn</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">General Manager</span>
+                    <span class="staff-name">Cherie Flesher</span>
+                </div>
+                <div class="staff-row">
+                    <span class="staff-role">Director of Sales</span>
+                    <span class="staff-name">Katie Boeckman</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+    <!-- ── RESIDENTIAL DIVIDER ── -->
+    <div class="section-divider">
+        <span class="section-divider-label">Residential</span>
+        <div class="section-divider-line"></div>
+    </div>
+
+    <!-- 8: Apartment Complex -->
+    <article class="property-card full-width" data-category="residential">
+        <div class="property-image-pane">
+            <span class="property-brand-badge">Residential</span>
+            <img src="/images/centaur.png" alt="Apartment Complex">
+            <div class="property-number">08</div>
+        </div>
+        <div class="property-info-pane">
+            <p class="property-location">Fairview Park, Ohio</p>
+            <h2 class="property-name font-playfair-display-sc-regular">The Centaur<br>at NASA Glenn</h2>
+            <div class="property-divider">
+                <div class="prop-rule"></div>
+                <div class="prop-dot"></div>
+            </div>
+            <div class="property-staff">
+                <div class="staff-row">
+                    <span class="staff-role">Management</span>
+                    <span class="staff-name">Ceres Enterprises</span>
+                </div>
+            </div>
+            <a href="#" class="property-cta">More Info</a>
+        </div>
+    </article>
+
+</main>
+
+<!-- ================== FOOTER ================== -->
+<div id="footer-placeholder"></div>
 <script>
     fetch('/footer.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('footer-placeholder').outerHTML = data;
         });
+</script>
+
+<!-- ================== SCRIPTS ================== -->
+<script>
+    // Scroll reveal
+    const cards = document.querySelectorAll('.property-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                entry.target.style.transitionDelay = `${i * 0.05}s`;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    cards.forEach(card => observer.observe(card));
+
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            cards.forEach(card => {
+                const cats = card.dataset.category || '';
+                if (filter === 'all' || cats.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Only show section dividers when "All Properties" is selected
+            document.querySelectorAll('.section-divider').forEach(d => {
+                d.style.display = filter === 'all' ? '' : 'none';
+            });
+        });
+    });
 </script>
 
 </body>

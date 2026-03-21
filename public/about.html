@@ -298,6 +298,27 @@
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
+
+            // Initialize navbar scroll behavior AFTER navbar is loaded
+            const navbar = document.querySelector('.navbar');
+
+            if (navbar) {
+                // Initial check
+                if (window.scrollY > 80) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                // Listen to normal window scroll
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
         });
 </script>
 
@@ -382,26 +403,7 @@
     </div>
 </section>
 
-<!-- ================== NAVBAR SCROLL SCRIPT ================== -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
 
-        if (window.scrollY <= 80) {
-            navbar.classList.remove('scrolled');
-        } else {
-            navbar.classList.add('scrolled');
-        }
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    });
-</script>
 
 <div id="footer-placeholder"></div>
 
