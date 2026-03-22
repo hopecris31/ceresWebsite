@@ -5,16 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind CSS (compiled) -->
     <link href="/css/output.css" rel="stylesheet">
-    <!-- Custom Styles (needed for navbar) -->
     <link href="/css/styles.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
+        /* ── CSS variables (needed for header) ── */
+        :root {
+            --gold: #d4af64;
+            --gold-dim: rgba(212, 175, 100, 0.35);
+            --dark-base: #0e1420;
+            --text-primary: #ffffff;
+        }
+
+        /* ── Shared animation ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding-top: 9rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            background: #111827;
+        }
+
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .page-eyebrow {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: var(--text-primary);
+            margin: 0;
+            opacity: 0;
+            animation: fadeInUp 0.9s ease forwards 0.4s;
+        }
+
+        .page-header-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .header-rule {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim));
+        }
+        .header-rule:last-child {
+            background: linear-gradient(270deg, transparent, var(--gold-dim));
+        }
+
+        .header-diamond {
+            width: 5px; height: 5px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            opacity: 0.6;
+        }
+
         /* ---------- GRID MOSAIC ---------- */
-        /* Using !important to ensure these aren't overridden */
         .mosaic-grid {
             display: grid !important;
             gap: 24px !important;
@@ -31,7 +108,6 @@
             cursor: pointer;
             transition: transform .25s ease, box-shadow .25s ease, opacity 0.6s ease;
             background: #111;
-            /* Initial state for animation */
             opacity: 0;
             transform: translateY(30px) scale(0.95);
         }
@@ -80,68 +156,41 @@
             padding: 12px 18px;
             border-radius: 0;
         }
-
-        /* Hero Line + Animation (now fixed) */
-        .hero-line {
-            width: 100px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
-            margin: 2rem auto;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-white overflow-x-hidden">
 
 <!-- NAVBAR -->
 <div id="navbar-placeholder"></div>
-
 <script>
     fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
 
-            // Initialize navbar scroll behavior AFTER navbar is loaded
             const navbar = document.querySelector('.navbar');
             if (navbar) {
-                if (window.scrollY <= 80) {
-                    navbar.classList.remove('scrolled');
-                } else {
-                    navbar.classList.add('scrolled');
-                }
+                if (window.scrollY <= 80) navbar.classList.remove('scrolled');
+                else navbar.classList.add('scrolled');
 
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 80) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
-                    }
+                    if (window.scrollY > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
                 });
             }
         });
 </script>
 
 <!-- HEADER -->
-<header class="pt-28 pb-2 md:pt-36 md:pb-4 text-center">
-    <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] text-white drop-shadow-3xl leading-tight uppercase font-playfair-display-sc-regular">
-        GALLERY
-    </h3>
+<header class="page-header">
+    <p class="page-eyebrow">A Look Inside</p>
+    <h1 class="page-title font-playfair-display-sc-regular">GALLERY</h1>
     <div class="hero-line"></div>
 </header>
 
 <!-- MOSAIC GRID -->
 <section class="container mx-auto px-16 pb-20">
     <div class="mosaic-grid">
-        <!-- 42 IMAGES (unchanged - keeping your full list) -->
         <div class="mosaic-item"><img src="/images/gallery_images/centaur_living_room_2.png" alt="Grand Lobby" data-caption="Grand Lobby Entrance"></div>
         <div class="mosaic-item"><img src="/images/gallery_images/avon_firepit.png" alt="Bar" data-caption="Avon Bar & Lounge"></div>
         <div class="mosaic-item"><img src="/images/gallery_images/centuar_kitchen.png" alt="Bathroom" data-caption="Luxury Bathroom"></div>
@@ -202,7 +251,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const items = document.querySelectorAll('.mosaic-item');
-        const grid = document.querySelector('.mosaic-grid');
 
         // === Auto-generate mosaic pattern ===
         let currentRow = 1;
@@ -258,44 +306,26 @@
         }
 
         // === Staggered Loading Animation ===
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -50px 0px',
-            threshold: 0.1
-        };
-
         const loadedItems = new Set();
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !loadedItems.has(entry.target)) {
                     loadedItems.add(entry.target);
-
-                    // Find the index of this item among all items
-                    const index = Array.from(items).indexOf(entry.target);
-
-                    // Get all currently intersecting items that haven't been loaded
-                    const visibleUnloaded = Array.from(items).filter((item, i) => {
+                    const visibleUnloaded = Array.from(items).filter(item => {
                         const rect = item.getBoundingClientRect();
-                        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-                        return isVisible && !item.classList.contains('loaded') && !loadedItems.has(item);
+                        return rect.top < window.innerHeight && rect.bottom > 0
+                            && !item.classList.contains('loaded') && !loadedItems.has(item);
                     });
-
-                    // Stagger the animation based on position in visible group
                     const staggerIndex = visibleUnloaded.indexOf(entry.target);
-                    const delay = Math.max(0, staggerIndex) * 80; // 80ms stagger between each tile
-
-                    setTimeout(() => {
-                        entry.target.classList.add('loaded');
-                    }, delay);
+                    const delay = Math.max(0, staggerIndex) * 80;
+                    setTimeout(() => entry.target.classList.add('loaded'), delay);
                 }
             });
-        }, observerOptions);
+        }, { root: null, rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
 
-        // Observe all mosaic items
         items.forEach(item => observer.observe(item));
 
-        // Initial load animation for items already in viewport
         setTimeout(() => {
             items.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
@@ -303,7 +333,7 @@
                     setTimeout(() => {
                         item.classList.add('loaded');
                         loadedItems.add(item);
-                    }, index * 80); // Stagger initial visible items
+                    }, index * 80);
                 }
             });
         }, 100);
@@ -318,10 +348,7 @@
         let currentIndex = 0;
 
         items.forEach((item, i) => {
-            item.addEventListener('click', () => {
-                currentIndex = i;
-                openLightbox();
-            });
+            item.addEventListener('click', () => { currentIndex = i; openLightbox(); });
         });
 
         function openLightbox() {
@@ -361,7 +388,6 @@
 </script>
 
 <div id="footer-placeholder"></div>
-
 <script>
     fetch('/footer.html')
         .then(response => response.text())
