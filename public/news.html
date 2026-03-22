@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ceres Enterprises - Home</title>
+    <title>Ceres Enterprises - News</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="/css/output.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,61 +11,587 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="/js/main.js" defer></script>
+
+    <style>
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding-top: 9rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            background: #111827;
+        }
+
+        .page-eyebrow {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #d4af64;
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: #ffffff;
+            margin: 0;
+            opacity: 0;
+            animation: fadeInUp 0.9s ease forwards 0.4s;
+        }
+
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── NEWS LAYOUT ── */
+        .news-section {
+            background: #111827;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .news-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ── FEATURED ARTICLE (top, full width) ── */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 0;
+            margin-bottom: 4px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .featured-article.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .featured-article:hover .article-image img {
+            transform: scale(1.04);
+        }
+
+        .featured-article:hover .article-arrow {
+            gap: 1.25rem;
+        }
+
+        .featured-article:hover .article-arrow::after {
+            transform: translateX(4px);
+        }
+
+        .article-image {
+            position: relative;
+            overflow: hidden;
+            min-height: 460px;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: brightness(0.85);
+        }
+
+        .article-image-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 460px;
+            background: linear-gradient(135deg, #1a2535 0%, #0e1420 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .placeholder-icon {
+            opacity: 0.12;
+        }
+
+        .article-tag {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #d4af64;
+            background: rgba(10, 16, 26, 0.8);
+            backdrop-filter: blur(6px);
+            padding: 0.4rem 0.9rem;
+            border: 1px solid rgba(212, 175, 100, 0.35);
+        }
+
+        .article-info {
+            background: #161f2e;
+            padding: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+        }
+
+        .article-info::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border-top: 1px solid rgba(212, 175, 100, 0.25);
+            border-left: 1px solid rgba(212, 175, 100, 0.25);
+        }
+
+        .article-info::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 40px; height: 40px;
+            border-bottom: 1px solid rgba(212, 175, 100, 0.25);
+            border-right: 1px solid rgba(212, 175, 100, 0.25);
+        }
+
+        .article-date {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1rem;
+        }
+
+        .article-headline {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 1.25rem;
+        }
+
+        .article-excerpt {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.55);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .article-divider {
+            width: 36px;
+            height: 1px;
+            background: rgba(212, 175, 100, 0.35);
+            margin-bottom: 2rem;
+        }
+
+        .article-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #d4af64;
+            transition: gap 0.3s ease;
+        }
+
+        .article-arrow::after {
+            content: '→';
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* ── GRID ARTICLES (3 columns below featured) ── */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .grid-article {
+            display: flex;
+            flex-direction: column;
+            background: #161f2e;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .grid-article.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .grid-article:hover .article-image img {
+            transform: scale(1.05);
+        }
+
+        .grid-article:hover .article-arrow {
+            gap: 1.25rem;
+        }
+
+        .grid-article:hover .article-arrow::after {
+            transform: translateX(4px);
+        }
+
+        .grid-article .article-image {
+            min-height: 220px;
+        }
+
+        .grid-article .article-image-placeholder {
+            min-height: 220px;
+        }
+
+        .grid-article .article-info {
+            padding: 2rem 2rem 2.5rem;
+            flex-grow: 1;
+        }
+
+        .grid-article .article-info::before,
+        .grid-article .article-info::after {
+            display: none;
+        }
+
+        .grid-article .article-headline {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+        }
+
+        /* ── SECONDARY FULL-WIDTH STRIP ── */
+        .strip-article {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 0;
+            margin-bottom: 4px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            cursor: pointer;
+            text-decoration: none;
+            background: #161f2e;
+        }
+
+        .strip-article.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .strip-article:hover .article-image img {
+            transform: scale(1.05);
+        }
+
+        .strip-article:hover .article-arrow {
+            gap: 1.25rem;
+        }
+
+        .strip-article:hover .article-arrow::after {
+            transform: translateX(4px);
+        }
+
+        .strip-article .article-image {
+            min-height: 200px;
+        }
+
+        .strip-article .article-image-placeholder {
+            min-height: 200px;
+        }
+
+        .strip-article .article-info {
+            padding: 2rem 2.5rem;
+            justify-content: center;
+        }
+
+        .strip-article .article-info::before,
+        .strip-article .article-info::after {
+            display: none;
+        }
+
+        .strip-article .article-headline {
+            font-size: clamp(1rem, 1.5vw, 1.3rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .strip-article .article-excerpt {
+            margin-bottom: 1.25rem;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .featured-article,
+            .strip-article {
+                grid-template-columns: 1fr;
+            }
+
+            .article-image,
+            .article-image-placeholder {
+                min-height: 280px !important;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-info {
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-800 text-white">
+<body class="bg-gray-900 text-white">
 
-<!-- ================== FLOATING NAVBAR ================== -->
+<!-- ================== NAVBAR ================== -->
 <div id="navbar-placeholder"></div>
-
 <script>
     fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
-        });
-</script>
 
-<!-- ================== FULL-SCREEN SLIDER ================== -->
-<section class="relative h-screen w-full overflow-hidden">
-    <!-- Hero Text (Centered) -->
-    <div class="absolute inset-0 flex items-center justify-center z-10">
-        <h1 class="text-6xl md:text-8xl font-bold text-white drop-shadow-2xl tracking-wide font-playfair-display-sc-regular">
-            NEWS
-        </h1>
-    </div>
-</section>
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 80) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
 
-<script>
-    // Keep navbar perfectly consistent across pages
-    document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
-
-        // Force correct state immediately on page load
-        if (window.scrollY <= 80) {
-            navbar.classList.remove('scrolled');
-        } else {
-            navbar.classList.add('scrolled');
-        }
-
-        // Then listen for scroll as usual
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
+                });
             }
         });
-    });
 </script>
 
-<div id="footer-placeholder"></div>
+<!-- ================== PAGE HEADER ================== -->
+<header class="page-header">
+    <p class="page-eyebrow">Latest Updates</p>
+    <h1 class="page-title font-playfair-display-sc-regular">NEWS</h1>
+    <div class="hero-line"></div>
+</header>
 
+<!-- ================== NEWS CONTENT ================== -->
+<section class="news-section">
+    <div class="news-inner" id="news-container"></div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<div id="footer-placeholder"></div>
 <script>
     fetch('/footer.html')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error('Footer fetch failed: ' + response.status);
+            return response.text();
+        })
         .then(data => {
-            document.getElementById('footer-placeholder').outerHTML = data;
-        });
+            const placeholder = document.getElementById('footer-placeholder');
+            placeholder.insertAdjacentHTML('beforebegin', data);
+            placeholder.remove();
+            const yearEl = document.getElementById('footer-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        })
+        .catch(err => console.error(err));
+</script>
+
+<!-- ================== ARTICLES DATA & RENDERER ================== -->
+<script>
+    // ----------------------------------------------------------------
+    // ARTICLES LIST — edit this array to update the news page.
+    // Each sublist: [title, tag, imagePath, date, link, description]
+    // ----------------------------------------------------------------
+    const articles = [
+        [
+            "Ceres Enterprises Announces Expansion Into New Markets",
+            "Featured",
+            "",
+            "March 2026",
+            "#",
+            "With a decades-long track record of excellence in Ohio and Indiana, Ceres Enterprises sets its sights on strategic growth opportunities across new regional markets, continuing its commitment to award-winning hospitality management."
+        ],
+        [
+            "Westfield Wyndham Earns Top Customer Satisfaction Rating",
+            "Award",
+            "",
+            "February 2026",
+            "#",
+            "Our Westfield property receives recognition for leading the region in guest satisfaction scores for the second consecutive year."
+        ],
+        [
+            "The Centaur Residential Community Opens at NASA Glenn",
+            "Development",
+            "",
+            "January 2026",
+            "#",
+            "Ceres Enterprises marks a milestone with the opening of its first residential community, expanding beyond hospitality into premium living."
+        ],
+        [
+            "Orbit Hotel Named Among Ohio's Most Unique Stays",
+            "Partnership",
+            "",
+            "December 2025",
+            "#",
+            "The Trademark by Wyndham property at NASA Glenn earns national media attention for its one-of-a-kind guest experience."
+        ],
+        [
+            "\"People Make the Party\" — Inside the Culture That Drives Ceres Enterprises",
+            "Culture",
+            "",
+            "November 2025",
+            "#",
+            "A profile on the family values and associate-first philosophy that have defined Ceres Enterprises since its founding by Frank Crisafi in 1958."
+        ],
+        [
+            "Hilton Garden Inn Cleveland Airport Completes Renovation",
+            "Industry",
+            "",
+            "October 2025",
+            "#",
+            "Following a comprehensive renovation program, the Hilton Garden Inn near Cleveland Airport debuts an elevated guest experience with modernized amenities throughout."
+        ],
+        [
+            "David Crisafi on the Future of Independent Hotel Management",
+            "Leadership",
+            "",
+            "September 2025",
+            "#",
+            "President David Crisafi shares his vision for the next chapter of Ceres Enterprises, including plans for aggressive growth in new markets across the Midwest."
+        ],
+    ];
+
+    // ----------------------------------------------------------------
+    // HELPERS
+    // ----------------------------------------------------------------
+    const PLACEHOLDER_SVG_LG = `
+        <svg class="placeholder-icon" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+        </svg>`;
+
+    const PLACEHOLDER_SVG_SM = `
+        <svg class="placeholder-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+        </svg>`;
+
+    function imagePane(imagePath, tag, placeholderSvg) {
+        const inner = imagePath
+            ? `<img src="${imagePath}" alt="${tag}">`
+            : `<div class="article-image-placeholder">${placeholderSvg}</div>`;
+        return `
+            <div class="article-image">
+                ${inner}
+                <span class="article-tag">${tag}</span>
+            </div>`;
+    }
+
+    // ----------------------------------------------------------------
+    // CARD BUILDERS
+    // ----------------------------------------------------------------
+    function buildFeatured([title, tag, img, date, link, desc]) {
+        return `
+        <a href="${link}" class="featured-article" target="_blank" rel="noopener">
+            ${imagePane(img, tag, PLACEHOLDER_SVG_LG)}
+            <div class="article-info">
+                <p class="article-date">${date}</p>
+                <h2 class="article-headline font-playfair-display-sc-regular">${title}</h2>
+                <div class="article-divider"></div>
+                <p class="article-excerpt">${desc}</p>
+                <span class="article-arrow">Read Article</span>
+            </div>
+        </a>`;
+    }
+
+    function buildGrid([title, tag, img, date, link, desc]) {
+        return `
+        <a href="${link}" class="grid-article" target="_blank" rel="noopener">
+            ${imagePane(img, tag, PLACEHOLDER_SVG_SM)}
+            <div class="article-info">
+                <p class="article-date">${date}</p>
+                <h3 class="article-headline font-playfair-display-sc-regular">${title}</h3>
+                <div class="article-divider"></div>
+                <p class="article-excerpt">${desc}</p>
+                <span class="article-arrow">Read Article</span>
+            </div>
+        </a>`;
+    }
+
+    function buildStrip([title, tag, img, date, link, desc]) {
+        return `
+        <a href="${link}" class="strip-article" target="_blank" rel="noopener">
+            ${imagePane(img, tag, PLACEHOLDER_SVG_SM)}
+            <div class="article-info">
+                <p class="article-date">${date}</p>
+                <h3 class="article-headline font-playfair-display-sc-regular">${title}</h3>
+                <p class="article-excerpt">${desc}</p>
+                <span class="article-arrow">Read Article</span>
+            </div>
+        </a>`;
+    }
+
+    // ----------------------------------------------------------------
+    // RENDER — first article as featured, rest as strips
+    // ----------------------------------------------------------------
+    function renderNews() {
+        const container = document.getElementById('news-container');
+        let html = '';
+
+        if (articles.length === 0) return;
+
+        // Featured (first article)
+        html += buildFeatured(articles[0]);
+
+        // Strips (all remaining articles)
+        articles.slice(1).forEach(a => { html += buildStrip(a); });
+
+        container.innerHTML = html;
+
+        // Scroll reveal
+        const revealEls = container.querySelectorAll('.featured-article, .grid-article, .strip-article');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach(el => observer.observe(el));
+    }
+
+    renderNews();
 </script>
 
 </body>
