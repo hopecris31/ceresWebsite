@@ -5,31 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceres Enterprises - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Tailwind CSS (compiled) -->
     <link href="/css/output.css" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <link href="/css/styles.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
     <style>
-        /* Hero text fade-in animation - all at once */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         .hero-text-wrapper {
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
@@ -39,73 +24,43 @@
 </head>
 <body class="bg-gray-800 text-white overflow-x-hidden">
 
-<!-- Floating Navbar -->
 <div id="navbar-placeholder"></div>
-
 <script>
     fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').outerHTML = data;
-
-            // Initialize navbar scroll behavior after navbar is loaded
             const navbar = document.querySelector('.navbar');
             const scrollContainer = document.getElementById('scroll-container');
-
             if (navbar && scrollContainer) {
-                const scrollThreshold = 80;
-
                 function updateNavbar() {
-                    if (scrollContainer.scrollTop > scrollThreshold) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
-                    }
+                    if (scrollContainer.scrollTop > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
                 }
-
                 updateNavbar();
                 scrollContainer.addEventListener('scroll', updateNavbar);
             }
         });
 </script>
 
-<!-- Main Content -->
 <main class="snap-container" id="scroll-container">
 
-    <!-- Hero Section -->
     <section class="snap-section hero-section">
-        <div class="slide active">
-            <img src="/images/westfield.png" class="slide-image" alt="Westfield">
-        </div>
-        <div class="slide">
-            <img src="/images/fairfield.png" class="slide-image" alt="Fairfield">
-        </div>
-        <div class="slide">
-            <img src="/images/noblesville.png" class="slide-image" alt="Noblesville">
-        </div>
-        <div class="slide">
-            <img src="/images/orbit.png" class="slide-image" alt="Orbit">
-        </div>
-        <div class="slide">
-            <img src="/images/avon.png" class="slide-image" alt="Avon">
-        </div>
+        <div class="slide active"><img src="/images/westfield.png" class="slide-image" alt="Westfield"></div>
+        <div class="slide"><img src="/images/fairfield.png" class="slide-image" alt="Fairfield"></div>
+        <div class="slide"><img src="/images/noblesville.png" class="slide-image" alt="Noblesville"></div>
+        <div class="slide"><img src="/images/orbit.png" class="slide-image" alt="Orbit"></div>
+        <div class="slide"><img src="/images/avon.png" class="slide-image" alt="Avon"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-text-wrapper">
-                <h4 class="hero-subtitle font-playfair-display-sc-regular">
-                    Rooted in Excellence.
-                </h4>
-                <h4 class="hero-subtitle font-playfair-display-sc-regular">
-                    Refined in Every Detail.
-                </h4>
-                <h3 class="hero-title font-playfair-display-sc-regular">
-                    HOSPITALITY REDEFINED.
-                </h3>
+                <h4 class="hero-subtitle font-playfair-display-sc-regular">Rooted in Excellence.</h4>
+                <h4 class="hero-subtitle font-playfair-display-sc-regular">Refined in Every Detail.</h4>
+                <h3 class="hero-title font-playfair-display-sc-regular">HOSPITALITY REDEFINED.</h3>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
     <section class="snap-section services-section" id="section-2">
         <div class="services-content" id="words-container">
             <h3 class="services-heading font-playfair-display-sc-regular">
@@ -120,30 +75,23 @@
 
 </main>
 
-<script>
-    // Auto-update current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<!-- JavaScript -->
-<script src="/js/main.js"></script>
-
-<!-- ============================================
-     CERES ENTERPRISES - FOOTER COMPONENT
-     ============================================ -->
+<script src="/js/main.js" defer></script>
 
 <div id="footer-placeholder"></div>
-
 <script>
     fetch('/footer.html')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error('Footer fetch failed: ' + response.status);
+            return response.text();
+        })
         .then(data => {
-            document.getElementById('footer-placeholder').outerHTML = data;
-        });
-</script>
-
-<script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+            const placeholder = document.getElementById('footer-placeholder');
+            placeholder.insertAdjacentHTML('beforebegin', data);
+            placeholder.remove();
+            const yearEl = document.getElementById('footer-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        })
+        .catch(err => console.error(err));
 </script>
 
 </body>
