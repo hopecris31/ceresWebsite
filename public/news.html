@@ -129,22 +129,6 @@
             opacity: 0.12;
         }
 
-        .article-tag {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            font-family: 'Public Sans', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: #d4af64;
-            background: rgba(10, 16, 26, 0.8);
-            backdrop-filter: blur(6px);
-            padding: 0.4rem 0.9rem;
-            border: 1px solid rgba(212, 175, 100, 0.35);
-        }
-
         .article-info {
             background: #161f2e;
             padding: 3.5rem;
@@ -435,60 +419,60 @@
     // ----------------------------------------------------------------
     const articles = [
         [
-            "Ceres Enterprises Announces Expansion Into New Markets",
-            "Featured",
+            "Hotel planned for historic grain mill in Flats",
             "",
-            "March 2026",
-            "#",
-            "With a decades-long track record of excellence in Ohio and Indiana, Ceres Enterprises sets its sights on strategic growth opportunities across new regional markets, continuing its commitment to award-winning hospitality management."
-        ],
-        [
-            "Westfield Wyndham Earns Top Customer Satisfaction Rating",
-            "Award",
-            "",
-            "February 2026",
-            "#",
-            "Our Westfield property receives recognition for leading the region in guest satisfaction scores for the second consecutive year."
-        ],
-        [
-            "The Centaur Residential Community Opens at NASA Glenn",
-            "Development",
-            "",
-            "January 2026",
-            "#",
-            "Ceres Enterprises marks a milestone with the opening of its first residential community, expanding beyond hospitality into premium living."
-        ],
-        [
-            "Orbit Hotel Named Among Ohio's Most Unique Stays",
-            "Partnership",
-            "",
+            "/images/news_images/historic_grain_mill_flats.png",
             "December 2025",
-            "#",
-            "The Trademark by Wyndham property at NASA Glenn earns national media attention for its one-of-a-kind guest experience."
+            "https://neo-trans.blog/2025/12/02/hotel-planned-for-historic-grain-mill-in-flats/",
+            "A 19th-century flour mill and its towering concrete grain silos in Cleveland's Flats will be transformed into a $61.6 million hotel project"
         ],
         [
-            "\"People Make the Party\" — Inside the Culture That Drives Ceres Enterprises",
-            "Culture",
+            "Cleveland Metroparks seeks partnership with hotel developer for Columbus Peninsula project",
             "",
-            "November 2025",
-            "#",
-            "A profile on the family values and associate-first philosophy that have defined Ceres Enterprises since its founding by Frank Crisafi in 1958."
+            "/images/news_images/ideastream_mill.png",
+            "August 2025",
+            "https://www.ideastream.org/community/2025-08-14/cleveland-metroparks-seeks-partnership-with-hotel-developer-for-columbus-peninsula-project",
+            "Cleveland Metroparks is seeking a partnership with Ceres + LaPine Development to redevelop 15 historic parcels including grain silos on the Columbus Road Peninsula along the Cuyahoga River, pending approval of historic preservation tax credits"
         ],
         [
-            "Hilton Garden Inn Cleveland Airport Completes Renovation",
-            "Industry",
+            "NASA history lives on: Cleveland’s Orbit Hotel and Centaur Apartments thrive | Mission Possible",
             "",
-            "October 2025",
-            "#",
-            "Following a comprehensive renovation program, the Hilton Garden Inn near Cleveland Airport debuts an elevated guest experience with modernized amenities throughout."
+            "/images/news_images/mission_possible.png",
+            "July 2025",
+            "https://www.wkyc.com/article/money/economy/mission-possible/nasa-glenn-history-cleveland-orbit-hotel-centaur-apartments-mission-possible/95-ec66be5d-cc7e-4d9a-afb6-cd3bd5131c9f",
+            "Two 1960s NASA office buildings in Fairview Park have been converted into the Orbit Hotel and Centaur Apartments, preserving Cleveland's space-age history"
         ],
         [
-            "David Crisafi on the Future of Independent Hotel Management",
-            "Leadership",
+            "New hotels, restaurants coming to land near NASA",
             "",
-            "September 2025",
-            "#",
-            "President David Crisafi shares his vision for the next chapter of Ceres Enterprises, including plans for aggressive growth in new markets across the Midwest."
+            "/images/news_images/voyager_park_announcement.png",
+            "November 2024",
+            "https://www.cleveland19.com/2024/11/26/new-hotels-restaurants-coming-land-near-nasa/",
+            "Thought for 2sCleveland City Council approved the sale of 10 acres near NASA Glenn Research Center for a $60 million development called Voyager Park, which will include two hotels and restaurants"
+        ],
+        [
+            "Wyndham signs multi-hotel agreement with Ceres",
+            "",
+            "/images/news_images/wyndham_noblesville_mockup.png",
+            "December 2021",
+            "https://hotelbusiness.com/wyndham-signs-multi-hotel-agreement-with-ceres/",
+            "Wyndham Hotels & Resorts has partnered with Ceres Development to convert and rebrand three hotels as part of the company's conversion growth strategy"
+        ],
+        [
+            "NASA buildings transition from ‘space race’ to luxury space in Fairview Park",
+            "",
+            "/images/news_images/centaur_news.png",
+            "May 2021",
+            "https://www.cleveland19.com/2021/05/24/nasa-buildings-transition-space-race-luxury-space-fairview-park/",
+            "The Centaur pays homage to NASA’s Centaur Rocket Program"
+        ],
+        [
+            "David Crisafi of Ceres Enterprises excited to redevelop former NASA buildings in Cleveland",
+            "",
+            "/images/news_images/bizJournals.png",
+            "November 2020",
+            "https://www.bizjournals.com/cleveland/news/2020/11/17/hotel-developer-excited-by-reusing-nasa-buildings.html",
+            "Ceres Enterprises is redeveloping two former NASA Glenn Research Center buildings in Fairview Park into a 59-room Trademark Collection by Wyndham hotel"
         ],
     ];
 
@@ -505,15 +489,11 @@
             <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
         </svg>`;
 
-    function imagePane(imagePath, tag, placeholderSvg) {
+    function imagePane(imagePath, placeholderSvg) {
         const inner = imagePath
-            ? `<img src="${imagePath}" alt="${tag}">`
+            ? `<img src="${imagePath}" alt="">`
             : `<div class="article-image-placeholder">${placeholderSvg}</div>`;
-        return `
-            <div class="article-image">
-                ${inner}
-                <span class="article-tag">${tag}</span>
-            </div>`;
+        return `<div class="article-image">${inner}</div>`;
     }
 
     // ----------------------------------------------------------------
@@ -522,7 +502,7 @@
     function buildFeatured([title, tag, img, date, link, desc]) {
         return `
         <a href="${link}" class="featured-article" target="_blank" rel="noopener">
-            ${imagePane(img, tag, PLACEHOLDER_SVG_LG)}
+            ${imagePane(img, PLACEHOLDER_SVG_LG)}
             <div class="article-info">
                 <p class="article-date">${date}</p>
                 <h2 class="article-headline font-playfair-display-sc-regular">${title}</h2>
@@ -536,7 +516,7 @@
     function buildGrid([title, tag, img, date, link, desc]) {
         return `
         <a href="${link}" class="grid-article" target="_blank" rel="noopener">
-            ${imagePane(img, tag, PLACEHOLDER_SVG_SM)}
+            ${imagePane(img, PLACEHOLDER_SVG_SM)}
             <div class="article-info">
                 <p class="article-date">${date}</p>
                 <h3 class="article-headline font-playfair-display-sc-regular">${title}</h3>
@@ -550,7 +530,7 @@
     function buildStrip([title, tag, img, date, link, desc]) {
         return `
         <a href="${link}" class="strip-article" target="_blank" rel="noopener">
-            ${imagePane(img, tag, PLACEHOLDER_SVG_SM)}
+            ${imagePane(img, PLACEHOLDER_SVG_SM)}
             <div class="article-info">
                 <p class="article-date">${date}</p>
                 <h3 class="article-headline font-playfair-display-sc-regular">${title}</h3>
