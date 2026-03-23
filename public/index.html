@@ -78,20 +78,13 @@
 <script src="/js/main.js" defer></script>
 
 <div id="footer-placeholder"></div>
+
 <script>
     fetch('/footer.html')
-        .then(response => {
-            if (!response.ok) throw new Error('Footer fetch failed: ' + response.status);
-            return response.text();
-        })
+        .then(response => response.text())
         .then(data => {
-            const placeholder = document.getElementById('footer-placeholder');
-            placeholder.insertAdjacentHTML('beforebegin', data);
-            placeholder.remove();
-            const yearEl = document.getElementById('footer-year');
-            if (yearEl) yearEl.textContent = new Date().getFullYear();
-        })
-        .catch(err => console.error(err));
+            document.getElementById('footer-placeholder').outerHTML = data;
+        });
 </script>
 
 </body>
