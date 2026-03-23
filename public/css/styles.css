@@ -98,9 +98,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Logo */
 .logo {
-    height: 8rem;
+    height: 6rem;
     width: auto;
-    min-width: 140px;
+    min-width: 120px;
     object-fit: contain;
     transition: all var(--transition-medium);
 }
@@ -728,28 +728,6 @@ h1, h2, h3, h4, h5, h6 {
         flex-wrap: wrap;
         justify-content: center;
     }
-}
-
-/* Logo switching */
-.logo-transparent {
-    display: block;
-    position: absolute;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.logo-white {
-    display: block;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.navbar.scrolled .logo-transparent {
-    opacity: 0;
-}
-
-.navbar.scrolled .logo-white {
-    opacity: 1;
 }
 
 @media (max-width: 480px) {
