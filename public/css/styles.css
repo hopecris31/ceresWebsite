@@ -30,7 +30,7 @@
 
     /* Transparency */
     --overlay-dark: rgba(0, 0, 0, 0.5);
-    --navbar-scrolled: rgba(0, 0, 0, 0.85);
+    --navbar-scrolled: rgba(120, 95, 55, 0.40);
 
     /* Timing */
     --transition-fast: 0.3s ease;
