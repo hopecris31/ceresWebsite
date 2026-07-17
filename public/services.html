@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceres Enterprises - Services</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link href="/css/styles.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* ── PAGE HEADER (matches Properties page) ── */
+        .page-header {
+            padding-top: 9rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, #0a101a 0%, #111827 100%);
+        }
+
+        .page-eyebrow {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #d4af64;
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: #ffffff;
+            margin: 0;
+            opacity: 0;
+            animation: fadeInUp 0.9s ease forwards 0.4s;
+        }
+
+        .page-header-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .header-rule {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 100, 0.35));
+        }
+        .header-rule:last-child {
+            background: linear-gradient(270deg, transparent, rgba(212, 175, 100, 0.35));
+        }
+
+        .header-diamond {
+            width: 5px; height: 5px;
+            background: #d4af64;
+            transform: rotate(45deg);
+            opacity: 0.6;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           SERVICES PAGE STYLES
+           ============================================ */
+
+        /* Cards Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            /*padding: 4rem 2rem 4rem 2rem;*/
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Flip Card Container */
+        .flip-card {
+            perspective: 1000px;
+            height: 380px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flip-card-inner {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        /* Front of Card */
+        .flip-card-front {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border: 1px solid rgba(234, 229, 200, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flip-card:hover .flip-card-front {
+            border-color: rgba(234, 229, 200, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hover Image */
+        .card-image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .flip-card:hover .card-image {
+            transform: translateY(0);
+        }
+
+        .card-image-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .flip-card:hover .card-image-overlay {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-icon {
+            width: 60px; height: 60px;
+            margin-bottom: 1.5rem;
+            color: #eae5c8;
+            opacity: 0.8;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .flip-card:hover .card-icon {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            letter-spacing: 0.1em;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .card-hint {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(234, 229, 200, 0.5);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            z-index: 3;
+            white-space: nowrap;
+        }
+
+        .flip-card:hover .card-hint {
+            color: #eae5c8;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Back of Card */
+        .flip-card-back {
+            background: linear-gradient(145deg, #eae5c8 0%, #d4cfb5 100%);
+            transform: rotateY(180deg);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .card-back-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: 0.08em;
+            text-align: center;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(26, 26, 46, 0.2);
+            line-height: 1.2;
+        }
+
+        .card-description {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #2d2d44;
+            text-align: left;
+            margin: 0;
+        }
+
+        /* Scroll Animation */
+        .flip-card {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .flip-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .flip-card:nth-child(1) { transition-delay: 0.1s; }
+        .flip-card:nth-child(2) { transition-delay: 0.2s; }
+        .flip-card:nth-child(3) { transition-delay: 0.3s; }
+        .flip-card:nth-child(4) { transition-delay: 0.4s; }
+        .flip-card:nth-child(5) { transition-delay: 0.5s; }
+        .flip-card:nth-child(6) { transition-delay: 0.6s; }
+
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        /* Bottom CTA Section */
+        .services-cta {
+            background: linear-gradient(180deg, #111827 0%, #0a0a0a 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .cta-text {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #1a1a2e;
+            background: #eae5c8;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(234, 229, 200, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+                padding: 4rem 1rem;
+            }
+            .flip-card { height: 340px; }
+            .card-description { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+<!-- NAVBAR -->
+<div id="navbar-placeholder"></div>
+<script>
+    fetch('/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar-placeholder').outerHTML = data;
+
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 80) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
+                });
+            }
+        });
+</script>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+    <p class="page-eyebrow">What We Offer</p>
+    <h1 class="page-title font-playfair-display-sc-regular">SERVICES</h1>
+    <div class="hero-line"></div>
+</header>
+
+<!-- SERVICES GRID -->
+<section class="bg-gray-900">
+    <div class="services-grid">
+
+        <!-- Card 1: Accounting -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/accounting.png" alt="Accounting" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        <h3 class="card-title">Accounting</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Accounting</h4>
+                    <p class="card-description">
+                        Ceres Enterprises has developed a highly detailed, user-friendly accounting system to track
+                        hotel financial progress, enabling comparisons of individual line items via percentages or costs
+                        per occupied room. Profit and loss statements help General Managers compare performance against
+                        last year and budget while identifying areas needing improvement. We monitor several metrics,
+                        including top-line revenue, gross operating profit, overall labor expense, outstanding accounts
+                        receivable, market share results, and overall guest satisfaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Payroll -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/payroll.png" alt="Payroll" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <h3 class="card-title">Payroll</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Payroll</h4>
+                    <p class="card-description">
+                        Our payroll system is driven at the property level and executed at Ceres Enterprises corporate headquarters where frequent audits take place, approvals are made, and checks and balances are done. This centralized approach ensures accuracy, compliance, and timely processing while maintaining the flexibility needed for property-level management.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Human Resources -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/human_resources.png" alt="Human Resources" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <h3 class="card-title">Human Resources</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Human Resources</h4>
+                    <p class="card-description">
+                        Ceres Enterprises offers professional human resource assistance to our properties. Benefit offerings to associates are consistently enhanced through shopping for and obtaining the best healthcare benefits at the best rates. We offer supplemental insurance to all associates and consistently conduct wage surveys to ensure competitiveness. Human Resources drives updates on workers compensation, OSHA regulations, new hire documentation, annual reviews, coaching and counseling, associate handbook updates and codes of conduct.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Asset Management -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/asset_management.png" alt="Asset Management" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        <h3 class="card-title">Asset Management</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Asset Management</h4>
+                    <p class="card-description">
+                        Ceres Enterprises has developed unique and cost-effective programs for hotel renovations and
+                        construction. Each guest room is inspected and preventative maintenance is performed quarterly,
+                        including plumbing, HVAC, paint touch up and any additional items requiring repair. Capital
+                        requests are submitted by property leaders each year to the Director of Asset Management, ranked
+                        by importance, and submitted to the Director of Finance and President for approval.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5: Purchasing -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/purchasing.png" alt="Purchasing" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <h3 class="card-title">Purchasing</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Purchasing</h4>
+                    <p class="card-description">
+                        Purchasing is an extension of asset management. Ceres Enterprises requires three bids from sourcing for items to be purchased to ensure the best products at the best price. Timely purchasing and detailed scheduling of deliveries are critical to the operation of our hotels. This also includes purchasing of items for renovations, the interviewing of installers and general contractors. Complete coordination ensures a smooth process with the minimal interference with hotel business along with the most economical and timely completion of all projects.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Development -->
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="/images/development.png" alt="Development" class="card-image">
+                    <div class="card-image-overlay"></div>
+                    <div class="card-content">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <h3 class="card-title">Development</h3>
+                    </div>
+                    <span class="card-hint">Click to explore</span>
+                </div>
+                <div class="flip-card-back">
+                    <h4 class="card-back-title">Development</h4>
+                    <p class="card-description">
+                        Ceres Enterprises continuously evaluates new development opportunities across key markets. Our development team brings decades of experience in site selection, feasibility analysis, franchise negotiations, and project management. We partner with leading hotel brands to identify strategic locations that align with market demand and deliver strong returns. From ground-up construction to adaptive reuse projects, we manage every phase of development with precision and expertise.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="services-cta">
+    <h2 class="cta-title font-playfair-display-sc-regular">Partner With Us</h2>
+    <p class="cta-text">
+        Discover how Ceres Enterprises can elevate your hospitality investment with our comprehensive management services.
+    </p>
+    <a href="/contact.html" class="cta-button">Get In Touch</a>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+<script>
+    fetch('/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').outerHTML = data;
+        });
+</script>
+
+<!-- SCRIPTS -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.flip-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        cards.forEach(card => observer.observe(card));
+    });
+</script>
+
+</body>
+</html>

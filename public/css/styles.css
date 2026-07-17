@@ -1,86 +1,742 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================
+   CERES ENTERPRISES - styles.css
+   ============================================
 
-/* ================== NAVBAR ================== */
+   Table of Contents:
+   1. CSS Variables
+   2. Base / Reset
+   3. Typography
+   4. Navbar
+   5. Hero Section
+   6. Image Slider
+   7. Services Section
+   8. Word Drop-in Animation
+   9. Scroll Snap
+   10. Utilities
+   11. Responsive / Mobile
+
+   ============================================ */
+
+/* ============================================
+   1. CSS VARIABLES
+   ============================================ */
+:root {
+    /* Colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-cream: #eae5c8;
+
+    /* Transparency */
+    --overlay-dark: rgba(0, 0, 0, 0.5);
+    --navbar-scrolled: rgba(120, 95, 55, 0.40);
+
+    /* Timing */
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+    --transition-slow: 1s ease-in-out;
+
+    /* Animation */
+    --word-animation-duration: 2.0s;/* How long each word takes to drop */
+    --word-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+    --word-stagger-delay: 0.8s;/* Time between each word */
+
+    /* Spacing */
+    --navbar-padding: 2rem 6rem;
+    --navbar-padding-scrolled: 1rem 4rem;
+}
+
+
+/* ============================================
+   2. BASE / RESET
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ============================================
+   3. TYPOGRAPHY
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-variant-ligatures: none !important;
+}
+
+.font-playfair-display-sc-regular {
+    font-family: 'Playfair Display SC', serif;
+    font-variant-ligatures: none !important;
+}
+
+
+/* ============================================
+   4. NAVBAR
+   ============================================ */
 .navbar {
-    @apply fixed top-0 left-0 right-0 z-50 flex justify-between items-center
-    bg-transparent text-white pt-6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--navbar-padding);
+    background: transparent;
+    transition: all var(--transition-medium);
+}
+
+.navbar.scrolled {
+    background: var(--navbar-scrolled);
+    backdrop-filter: blur(12px);
+    padding: var(--navbar-padding-scrolled);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Logo */
+.logo {
+    height: 6rem;
+    width: auto;
+    min-width: 120px;
+    object-fit: contain;
+    transition: all var(--transition-medium);
+}
+
+.navbar.scrolled .logo {
+    height: 4.5rem;
+    min-width: 100px;
 }
 
 .logo-wrapper {
-    @apply flex items-center pl-24;
+    padding-left: 6rem;
 }
 
+/* Menu */
 .menu-wrapper {
-    @apply flex space-x-6 pr-36;
+    display: flex;
+    gap: 1.5rem;
+    padding-right: 9rem;
 }
 
 .nav-item {
-    @apply px-4 py-2 transition-all duration-300
-    text-white hover:text-[#eae5c8] hover:scale-105
-    text-lg md:text-xl font-medium tracking-wide;
-    font-family: 'Sora', sans-serif;
+    padding: 0.5rem 1rem;
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: "Urbanist", sans-serif;
+    font-weight: 300;
+    font-size: 1.125rem;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
 }
 
-/* ================== IMAGE SLIDER ================== */
+.nav-item:hover {
+    color: var(--color-cream);
+    transform: scale(1.05);
+}
+
+/* Hamburger */
+.hamburger {
+    color: var(--color-white);
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 6rem;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 1.5rem 2rem;
+    z-index: 40;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.mobile-menu.hidden {
+    display: none;
+}
+
+
+/* ============================================
+   5. HERO SECTION
+   ============================================ */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-dark);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;  /* Add this - aligns content to left */
+    z-index: 10;
+    pointer-events: none;
+}
+
+.hero-text-wrapper {
+    padding-left: 12rem;  /* Match logo position (6rem logo-wrapper + 6rem navbar padding) */
+    padding-right: 2rem;
+    max-width: none;      /* Remove max-width so it doesn't center */
+    margin: 0;            /* Remove auto margin */
+}
+
+.hero-subtitle {
+    font-size: clamp(1.875rem, 5vw, 3.75rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 0.05em;
+    line-height: 1;    /* Reduce from 1.25 - tightens space between lines */
+    margin: 0;           /* Remove any margin */
+    padding: 0;          /* Remove any padding */
+}
+
+.hero-subtitle:last-of-type {
+    margin-bottom: 0.5rem;  /* Reduce from 1.5rem - less space before title */
+}
+
+.hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);  /* 48px → 96px */
+    font-weight: 700;
+    color: var(--color-white);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+
+/* ============================================
+   6. IMAGE SLIDER
+   ============================================ */
 .slide {
-    @apply absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out;
-}
-.slide.active {
-    @apply opacity-100;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-slow);
 }
 
-/* ================== SCROLL SNAP (SOFT & SLOW) ================== */
+.slide.active {
+    opacity: 1;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ============================================
+   7. SERVICES SECTION
+   ============================================ */
+.services-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray-900);
+    height: 100vh;
+    padding: 2rem;
+    position: relative;
+}
+
+/* Subtle decorative accent */
+.services-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(234, 229, 200, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.services-content {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.services-heading {
+    font-size: clamp(1.5rem, 3vw, 2.75rem);
+    font-weight: 400;
+    margin-bottom: 4rem;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    color: var(--color-white);
+}
+
+.services-description {
+    font-family: 'Public Sans', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    font-weight: 300;
+    line-height: 2;
+    letter-spacing: 0.02em;
+    padding: 0 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Decorative line above description */
+.services-description::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--color-cream);
+    margin: 0 auto 3rem auto;
+    opacity: 0.6;
+}
+
+
+/* ============================================
+   8. WORD DROP-IN ANIMATION
+   ============================================ */
+
+/* Words start hidden and positioned above */
+.word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-80px);
+    transition:
+            opacity var(--word-animation-duration) var(--word-animation-easing),
+            transform var(--word-animation-duration) var(--word-animation-easing);
+}
+
+/* When container has .animate class, words become visible */
+.animate .word {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for each word */
+.animate .word:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.animate .word:nth-child(2) {
+    transition-delay: var(--word-stagger-delay);
+}
+
+.animate .word:nth-child(3) {
+    transition-delay: calc(var(--word-stagger-delay) * 2);
+}
+
+
+/* ============================================
+   9. SCROLL SNAP
+   ============================================ */
 .snap-container {
-    @apply scroll-smooth overflow-y-auto h-screen;
-    scroll-snap-type: y proximity;
-    scroll-padding-top: 0;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
 }
 
 .snap-section {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    flex-shrink: 0;
 }
 
-/* Custom slow scroll animation */
-@layer utilities {
-    .scroll-snap-slow {
-        scroll-behavior: smooth;
-        transition: scroll 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+/* ============================================
+   10. UTILITIES
+   ============================================ */
+.white-svg {
+    filter: brightness(0) invert(1);
+    transition: filter var(--transition-fast);
+}
+
+.white-svg:hover {
+    filter: brightness(0) invert(0.8);
+}
+
+
+/* ============================================
+   11. RESPONSIVE / MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+    :root {
+        --navbar-padding: 1.5rem;
+        --navbar-padding-scrolled: 1rem 1.5rem;
+    }
+
+    .logo-wrapper {
+        padding-left: 1rem;
+    }
+
+    .logo {
+        height: 5rem;
+        min-width: 100px;
+    }
+
+    .menu-wrapper {
+        display: none;
+    }
+
+    .hero-text-wrapper {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .services-description {
+        padding: 0 1rem;
+    }
+
+    .services-section::before {
+        width: 300px;
+        height: 300px;
     }
 }
 
-/* IRREGULAR MOSAIC - NO ROWS/COLUMNS */
-.mosaic-container {
-    @apply columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4;
+@media (max-width: 768px) {
+    .hero-text-wrapper {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 }
 
-.mosaic-item {
-    @apply break-inside-avoid mb-4 overflow-hidden cursor-pointer
-    transition-all duration-300 shadow-md hover:shadow-xl hover:z-10;
+@media (min-width: 1024px) {
+    .hero-text-wrapper {
+        padding-left: 12rem;  /* Matches logo on desktop */
+        padding-right: 6rem;
+    }
 }
 
-.mosaic-item:hover {
-    @apply scale-105;
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
 }
 
-.mosaic-item img {
-    @apply w-full h-full object-cover transition-transform duration-300;
+/* ============================================
+   12. FOOTER
+   ============================================ */
+.site-footer {
+    background: linear-gradient(180deg, var(--color-gray-900) 0%, #0a0a0a 100%);
+    color: var(--color-white);
+    padding: 5rem 0 2rem;
+    position: relative;
 }
 
-.mosaic-item:hover img {
-    @apply scale-110;
+/* Subtle top border accent */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-cream), transparent);
+    opacity: 0.4;
 }
 
-/* UNIQUE SIZES */
-.size-sm   { height: 180px; }
-.size-md   { height: 240px; }
-.size-lg   { height: 320px; }
-.size-wide { height: 200px; }
-.size-tall { height: 380px; }
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 6rem;
+}
 
-/* Lightbox caption */
-#lightbox-caption {
-    @apply bg-black/60 backdrop-blur-sm py-3 px-6;
+/* Brand Section */
+.footer-brand {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.footer-logo {
+    height: 5rem;
+    width: auto;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.footer-tagline {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--color-cream);
+    opacity: 0.7;
+}
+
+/* Grid Layout */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+/* Column Styles */
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-heading {
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--color-cream);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(234, 229, 200, 0.2);
+}
+
+/* Contact Items */
+.footer-contact-item {
+    margin-bottom: 1rem;
+}
+
+.footer-label {
+    display: block;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.25rem;
+}
+
+.footer-link {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+    color: var(--color-cream);
+}
+
+/* Address */
+.footer-address {
+    font-family: 'Public Sans', sans-serif;
+    font-style: normal;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Navigation Links */
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-nav-link {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    position: relative;
+    width: fit-content;
+}
+
+.footer-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-cream);
+    transition: width var(--transition-fast);
+}
+
+.footer-nav-link:hover {
+    color: var(--color-cream);
+}
+
+.footer-nav-link:hover::after {
+    width: 100%;
+}
+
+/* Social Links */
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all var(--transition-fast);
+}
+
+.social-link:hover {
+    border-color: var(--color-cream);
+    color: var(--color-cream);
+    transform: translateY(-2px);
+}
+
+.social-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Divider */
+.footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    margin-bottom: 2rem;
+}
+
+/* Bottom Section */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-copyright {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-legal-link {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.footer-legal-link:hover {
+    color: var(--color-cream);
+}
+
+.footer-legal-divider {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   FOOTER RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+    .footer-container {
+        padding: 0 3rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        padding: 4rem 0 2rem;
+    }
+
+    .footer-container {
+        padding: 0 1.5rem;
+    }
+
+    .footer-brand {
+        margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+        height: 4rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-column {
+        align-items: center;
+    }
+
+    .footer-heading {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .footer-nav-link {
+        margin: 0 auto;
+    }
+
+    .footer-nav-link::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-legal {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-legal {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .footer-legal-divider {
+        display: none;
+    }
 }

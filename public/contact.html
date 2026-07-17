@@ -3,41 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ceres Enterprises - Home</title>
-    <link href="/css/output.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="/js/main.js" defer></script>
+    <title>Ceres Enterprises - Contact</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link href="/css/styles.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── PAGE HEADER (matches Services/Gallery) ── */
+        .page-header {
+            padding-top: 9rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            background: #111827;
+        }
+
+        .page-eyebrow {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #d4af64;
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: #ffffff;
+            margin: 0;
+            opacity: 0;
+            animation: fadeInUp 0.9s ease forwards 0.4s;
+        }
+
+        .hero-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eae5c8, transparent);
+            margin: 2rem auto 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           CONTACT PAGE STYLES
+           ============================================ */
+
+        .contact-content {
+            background: #111827;
+            padding-top: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        @media (max-width: 968px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        /* Contact Info Side */
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInLeft 0.8s ease 0.3s forwards;
+        }
+
+        @keyframes slideInLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .info-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 1.75rem;
+            color: #eae5c8;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+        }
+
+        .info-block { margin-bottom: 2rem; }
+
+        .info-label {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        .info-value a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-value a:hover { color: #eae5c8; }
+
+        .info-divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(234, 229, 200, 0.3);
+            margin: 2.5rem 0;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: #eae5c8;
+            color: #eae5c8;
+            transform: translateY(-3px);
+        }
+
+        .social-link svg { width: 20px; height: 20px; }
+
+        /* Form Side */
+        .contact-form-wrapper {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideInRight 0.8s ease 0.5s forwards;
+        }
+
+        @keyframes slideInRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-title {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 1.75rem;
+            color: #eae5c8;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-group { position: relative; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group.last { grid-column: 1 / -1; margin-bottom: 2.5rem; }
+
+        .form-label {
+            display: block;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .required { color: #eae5c8; margin-left: 2px; }
+        .form-label .optional {
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #eae5c8;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(234, 229, 200, 0.1);
+        }
+
+        .form-input.error, .form-select.error, .form-textarea.error {
+            border-color: #e57373;
+            background: rgba(229, 115, 115, 0.08);
+            box-shadow: 0 0 0 3px rgba(229, 115, 115, 0.1);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            padding-right: 3rem;
+            cursor: pointer;
+        }
+
+        .form-select option { background: #1f2937; color: #ffffff; }
+        .form-textarea { min-height: 150px; resize: vertical; }
+
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #1a1a2e;
+            background: #eae5c8;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(234, 229, 200, 0.3);
+        }
+
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .submit-btn:hover svg { transform: translateX(4px); }
+
+        .error-banner {
+            display: none;
+            padding: 1rem 1.25rem;
+            background: rgba(229, 115, 115, 0.15);
+            border: 1px solid rgba(229, 115, 115, 0.4);
+            margin-bottom: 1.5rem;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .error-banner.show { display: flex; animation: fadeInUp 0.3s ease forwards; }
+        .error-banner svg { width: 20px; height: 20px; color: #e57373; flex-shrink: 0; }
+        .error-banner p { font-family: 'Public Sans', sans-serif; font-size: 0.95rem; color: #e57373; margin: 0; }
+
+        .success-message {
+            display: none;
+            padding: 1.5rem;
+            background: rgba(234, 229, 200, 0.1);
+            border: 1px solid rgba(234, 229, 200, 0.3);
+            margin-top: 1.5rem;
+        }
+
+        .success-message.show { display: block; animation: fadeInUp 0.5s ease forwards; margin-bottom: 3rem; }
+        .success-message p { font-family: 'Public Sans', sans-serif; color: #eae5c8; margin: 0; }
+
+        /* Map Section */
+        .map-section { background: #0a0a0a; padding: 0; height: 400px; position: relative; }
+        .map-section iframe { width: 100%; height: 100%; border: 0; filter: grayscale(100%) invert(92%) contrast(90%); }
+        .map-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(17, 24, 39, 0.3); pointer-events: none; }
+    </style>
 </head>
-<body class="bg-gray-800 text-white">
+<body class="bg-gray-900 text-white">
 
-<!-- ================== FLOATING NAVBAR ================== -->
-<nav class="navbar">
-    <!-- LOGO: moved in from left -->
-    <div class="logo-wrapper">
-        <a href="/" class="nav-item flex items-center">
-            <img src="/images/ceresTransparent.png" alt="Ceres Logo" class="h-24 w-auto">
-        </a>
-    </div>
+<!-- NAVBAR -->
+<div id="navbar-placeholder"></div>
+<script>
+    fetch('/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar-placeholder').outerHTML = data;
 
-    <!-- MENU: moved in from right -->
-    <div class="menu-wrapper">
-        <a href="/about"      class="nav-item">ABOUT</a>
-        <a href="/properties" class="nav-item">PROPERTIES</a>
-        <a href="/news"       class="nav-item">NEWS</a>
-        <a href="/gallery"    class="nav-item">GALLERY</a>
-        <a href="/contact"    class="nav-item">CONTACT</a>
-    </div>
-</nav>
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 80) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
 
-<!-- ================== FULL-SCREEN SLIDER ================== -->
-<section class="relative h-screen w-full overflow-hidden">
-    <!-- Hero Text (Centered) -->
-    <div class="absolute inset-0 flex items-center justify-center z-10">
-        <h1 class="text-6xl md:text-8xl font-bold text-white drop-shadow-2xl tracking-wide">
-            CONTACT
-        </h1>
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 80) navbar.classList.add('scrolled');
+                    else navbar.classList.remove('scrolled');
+                });
+            }
+        });
+</script>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+    <p class="page-eyebrow">Reach Out</p>
+    <h1 class="page-title font-playfair-display-sc-regular">CONTACT</h1>
+    <div class="hero-line"></div>
+</header>
+
+<!-- MAIN CONTENT -->
+<section class="contact-content">
+    <div class="contact-container">
+
+        <!-- Left Side: Contact Info -->
+        <div class="contact-info">
+            <h2 class="info-title">Get In Touch</h2>
+
+            <div class="info-block">
+                <p class="info-label">Headquarters</p>
+                <p class="info-value">
+                    Ceres Enterprises, LLC.<br>
+                    835 Sharon Drive, Suite 400<br>
+                    Westlake, OH 44145
+                </p>
+            </div>
+
+            <div class="info-block">
+                <p class="info-label">Phone</p>
+                <p class="info-value">
+                    <a href="tel:+14406179385">(440) 617-9385</a>
+                </p>
+            </div>
+
+            <div class="info-block">
+                <p class="info-label">Email</p>
+                <p class="info-value">
+                    <a href="mailto:info@ceresoh.com">info@ceresoh.com</a>
+                </p>
+            </div>
+
+            <div class="info-divider"></div>
+
+            <div class="info-block">
+                <p class="info-label">Connect With Us</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/ceres-enterprises-llc/" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Contact Form -->
+        <div class="contact-form-wrapper">
+            <h2 class="form-title">Send a Message</h2>
+            <p class="form-subtitle">Fields marked with <span style="color: #eae5c8;">*</span> are required</p>
+
+            <div id="error-banner" class="error-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p>Please fill out all required fields</p>
+            </div>
+
+            <form id="contact-form" action="#" method="POST" novalidate>
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" data-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Doe" data-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="company">Company <span class="required">*</span></label>
+                        <input type="text" id="company" name="company" class="form-input" placeholder="Your Company" data-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="john@company.com" data-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number <span class="optional"></span></label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 123-4567">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inquiryType">Inquiry Type <span class="optional"></span></label>
+                        <select id="inquiryType" name="inquiryType" class="form-select">
+                            <option value="">Select an option</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="development">Development Opportunity</option>
+                            <option value="management">Management Services</option>
+                            <option value="careers">Careers</option>
+                            <option value="media">Media / Press</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="subject">Subject <span class="optional"></span></label>
+                        <input type="text" id="subject" name="subject" class="form-input" placeholder="What is this regarding?">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="message">Message <span class="required">*</span></label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Tell us more about your inquiry..." data-required="true"></textarea>
+                    </div>
+
+                    <div class="form-group last">
+                        <button type="submit" class="submit-btn">
+                            Send Message
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <div id="success-message" class="success-message">
+                <p><strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.</p>
+            </div>
+        </div>
+
     </div>
 </section>
+
+<!-- MAP SECTION -->
+<section class="map-section">
+    <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2987.5!2d-81.9177!3d41.4553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8830e9e5c5a5a5a5%3A0x0!2s835%20Sharon%20Dr%2C%20Westlake%2C%20OH%2044145!5e0!3m2!1sen!2sus!4v1234567890"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="map-overlay"></div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+<script>
+    fetch('/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').outerHTML = data;
+        });
+</script>
+
+<!-- SCRIPTS -->
+<script>
+    const form = document.getElementById('contact-form');
+    const errorBanner = document.getElementById('error-banner');
+    const successMessage = document.getElementById('success-message');
+    const requiredFields = form.querySelectorAll('[data-required="true"]');
+
+    requiredFields.forEach(field => {
+        field.addEventListener('input', function() {
+            this.classList.remove('error');
+            if (form.querySelectorAll('.error').length === 0) {
+                errorBanner.classList.remove('show');
+            }
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        requiredFields.forEach(field => field.classList.remove('error'));
+        errorBanner.classList.remove('show');
+        successMessage.classList.remove('show');
+
+        let hasErrors = false;
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                hasErrors = true;
+            }
+        });
+
+        if (hasErrors) {
+            errorBanner.classList.add('show');
+            errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        console.log('Form submitted:', Object.fromEntries(new FormData(this)));
+        successMessage.classList.add('show');
+        this.reset();
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => successMessage.classList.remove('show'), 20000);
+    });
+
+    // Phone formatting
+    document.getElementById('phone').addEventListener('input', function() {
+        let digits = this.value.replace(/\D/g, '');
+        if (digits.length <= 3) this.value = digits.length ? '(' + digits : '';
+        else if (digits.length <= 6) this.value = '(' + digits.substring(0, 3) + ') ' + digits.substring(3);
+        else this.value = '(' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6, 10);
+    });
+</script>
 
 </body>
 </html>

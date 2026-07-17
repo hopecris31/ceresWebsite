@@ -1,0 +1,13 @@
+/* custom.css - Force headings to use your custom fonts and disable ligatures */
+/* This overrides Tailwind's base resets */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit !important;
+    font-variant-ligatures: none !important; /* Keeps "fi" separate */
+}
+
+.font-playfair-display-sc-regular,
+.font-playfair-sc {
+    font-family: 'Playfair Display SC', serif !important;
+    font-variant-ligatures: none !important;
+}
